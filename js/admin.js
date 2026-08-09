@@ -580,24 +580,36 @@ const Admin = {
    */
   renderPersistenceWarning() {
     if (this.data.local) return "";
-    const onLocalhost = /^(localhost|127\.0\.0\.1)/.test(location.hostname);
-    if (onLocalhost) return "";
+    if (/^(localhost|127\.0\.0\.1)/.test(location.hostname)) return "";
+
+    // Photographs are already safe — say so, and be clear about what still isn't.
+    if (this.data.config?.storage?.provider === "github") {
+      const repo = this.data.config.storage.github?.repository || "your repository";
+      return `
+        <div class="rf-admin-banner rf-admin-banner--ok">
+          <strong>Photographs are being committed to ${this.esc(repo)}.</strong>
+          <p>
+            Uploads and catalog changes are permanent — they survive every deploy.
+            Orders are not: this host still has no disk, so treat the WhatsApp alert on
+            your phone as the durable copy of an order until you move to a VPS.
+          </p>
+        </div>`;
+    }
 
     return `
       <div class="rf-admin-banner rf-admin-banner--warn">
-        <strong>Photographs uploaded here may not survive the next deploy.</strong>
+        <strong>Photographs uploaded here will not survive the next deploy.</strong>
         <p>
           This host has no persistent disk, so anything written at runtime — uploaded
           photos and catalog edits — is wiped when the service redeploys or sleeps.
-          To keep a catalog permanently, either attach a disk on a paid plan, or do the
-          photography on your own machine and commit it:
+          The free fix is to commit them to your GitHub repository instead:
+          <strong>Settings → Where photographs are stored</strong>.
         </p>
-        <ol>
-          <li>Run <code>node server/server.js</code> locally and upload photos there</li>
-          <li>Press <strong>Export catalog</strong> and save the file as <code>catalog.json</code> in the project root</li>
-          <li><code>git add catalog.json assets/products &amp;&amp; git commit &amp;&amp; git push</code></li>
-        </ol>
-        <p>Committed photographs are part of the build, so they come back with every deploy.</p>
+        <p>
+          Or do the photography on your own machine: run <code>node server/server.js</code>
+          locally, upload there, press <strong>Export catalog</strong>, save it as
+          <code>catalog.json</code> and commit that along with <code>assets/products</code>.
+        </p>
       </div>`;
   },
 
