@@ -1,0 +1,54 @@
+# systemd unit for a Hostinger VPS (or any Ubuntu/Debian box).
+#
+#   sudo cp deploy/rejifash.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now rejifash
+#   sudo systemctl status rejifash
+#
+# Secrets live in /etc/rejifash.env (root-only), never in this file and never
+# in the repo. See deploy/setup-vps.sh.
+
+[Unit]
+Description=Reji Fashions storefront
+Documentation=https://github.com/akthernaimudheen/rejifash
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=rejifash
+Group=rejifash
+WorkingDirectory=/opt/rejifash
+
+EnvironmentFile=/etc/rejifash.env
+ExecStart=/usr/bin/node server/server.js
+
+Restart=always
+RestartSec=3
+
+# Orders and uploaded photographs. Real disk, so nothing is lost on restart —
+# this is the main thing a VPS gives you over a free container host.
+StateDirectory=rejifash
+Environment=DATA_DIR=/var/lib/rejifash
+
+# Hardening. The app only ever needs to read its own directory and write to
+# its state directory.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/rejifash
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=rejifash
+
+[Install]
+WantedBy=multi-user.target

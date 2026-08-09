@@ -121,16 +121,50 @@ where `DATA_DIR` already points.
 
 **First request after idle takes ~30 seconds** while the container wakes.
 
+### Your own domain in front of Render
+
+Render issues free TLS for custom domains, including on the free plan. So a
+domain you already own — at Hostinger or anywhere else — can front the app:
+
+1. Render → your service → **Settings** → **Custom Domains** → add
+   `shop.yourdomain.com`.
+2. In your DNS panel add a **CNAME** for `shop` pointing at
+   `rejifash.onrender.com`.
+3. Wait for propagation. Render provisions the certificate automatically.
+
+The client then sees `https://shop.yourdomain.com` and never knows Render exists.
+
+### VPS (best result, ~5 minutes)
+
+A VPS removes both free-tier problems at once: no cold starts, and a real disk
+so orders actually persist. Point an A record at the server first, then:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/akthernaimudheen/rejifash/main/deploy/setup-vps.sh -o setup.sh
+sudo bash setup.sh shop.yourdomain.com
+```
+
+That installs Node, clones the repo, creates a locked-down service user,
+generates an admin password, sets up nginx and issues a Let's Encrypt
+certificate. Files it uses live in [`deploy/`](deploy/).
+
+Update later with `cd /opt/rejifash && sudo git pull && sudo systemctl restart rejifash`.
+
 ### Anywhere else
 
-`Dockerfile` works as-is on Fly.io, Railway, a VPS, or anything else that takes
-a container. Mount a volume at `/var/data` and set `ADMIN_PASSWORD` and
-`UPI_VPA`. Full list of variables in `.env.example`.
+`Dockerfile` works as-is on anything that takes a container. Mount a volume at
+`/var/data` and set `ADMIN_PASSWORD` and `UPI_VPA`. Full variable list in
+`.env.example`.
 
-Static hosts (GitHub Pages, Netlify drop) will serve the storefront but there is
-no Node process, so it runs in browser-only demo mode: orders stay in the
-visitor's localStorage, the admin dashboard sees only that browser's data, and
-no WhatsApp alerts are dispatched from the server.
+**Serverless platforms need a change first.** Vercel, Netlify Functions and
+Cloudflare Workers have no persistent filesystem, so `data/*.json` won't work.
+`server/store.js` is the only module that touches disk — swap its read/write
+pair for a database and nothing above it changes. See [`deploy/README.md`](deploy/README.md).
+
+**Static hosts** (GitHub Pages, Hostinger shared, a Netlify drop) serve the
+storefront but run no Node process, so it's browser-only demo mode: orders live
+in the visitor's localStorage, the admin dashboard sees only that browser, and
+no WhatsApp alerts are dispatched.
 
 ---
 
