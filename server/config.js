@@ -45,6 +45,20 @@ const DEFAULTS = {
     passwordHash: sha256("reji@admin")
   },
 
+  storage: {
+    // "local"  -> write uploads to disk. Right for a VPS, a mounted volume, or
+    //             running on your own machine.
+    // "github" -> commit uploads into the repository and serve them from
+    //             raw.githubusercontent.com. Free and permanent on hosts with
+    //             no persistent disk, such as Render's free plan.
+    provider: "local",
+    github: {
+      repository: "", // "owner/repo"
+      branch: "main",
+      token: "" // set GITHUB_TOKEN in the environment instead of storing it here
+    }
+  },
+
   whatsapp: {
     // "link"      -> no automatic send; the dashboard + customer screen show a
     //                one-tap wa.me link with the full order pre-typed. Zero setup.
@@ -109,6 +123,11 @@ function envOverrides() {
 
   set("admin.username", process.env.ADMIN_USERNAME);
   if (process.env.ADMIN_PASSWORD) set("admin.passwordHash", sha256(process.env.ADMIN_PASSWORD));
+
+  set("storage.provider", process.env.STORAGE_PROVIDER);
+  set("storage.github.repository", process.env.GITHUB_REPOSITORY);
+  set("storage.github.branch", process.env.GITHUB_BRANCH);
+  set("storage.github.token", process.env.GITHUB_TOKEN);
 
   set("whatsapp.provider", process.env.WHATSAPP_PROVIDER);
   set("whatsapp.callmebot.apiKey", process.env.CALLMEBOT_API_KEY);

@@ -558,6 +558,11 @@ const RejiAPI = (() => {
     throw new Error("Saving settings needs the server running: node server/server.js");
   }
 
+  async function adminTestStorage() {
+    if (state.mode === "server") return request("/api/admin/test-storage", { method: "POST", auth: true });
+    return { ok: true, provider: "local", result: null };
+  }
+
   async function adminTestWhatsApp() {
     if (state.mode === "server") return request("/api/admin/test-whatsapp", { method: "POST", auth: true });
     const text = "🔔 Test message from Reji Fashions admin dashboard.";
@@ -594,6 +599,7 @@ const RejiAPI = (() => {
     adminDeleteProduct,
     adminUpload,
     adminSaveSettings,
+    adminTestStorage,
     adminTestWhatsApp
   };
 })();

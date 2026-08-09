@@ -13,6 +13,7 @@ const crypto = require("crypto");
 const config = require("./config");
 const store = require("./store");
 const notify = require("./notify");
+const storage = require("./storage");
 
 const ROOT = path.join(__dirname, "..");
 const PORT = Number(process.env.PORT) || 4173;
@@ -240,6 +241,49 @@ function validateCustomer(c = {}) {
   };
 }
 
+/* -------------------------------------------------------------- secrets --- */
+
+// Access tokens must not travel to the browser, even an authenticated one. The
+// dashboard shows this sentinel so a field reads as "already set", and sending
+// it back unchanged on save means "leave it alone".
+const SECRET_MASK = "••••••••";
+
+const SECRET_PATHS = [
+  ["storage", "github", "token"],
+  ["whatsapp", "callmebot", "apiKey"],
+  ["whatsapp", "cloud", "accessToken"],
+  ["whatsapp", "twilio", "authToken"],
+  ["admin", "passwordHash"]
+];
+
+function maskSecrets(cfg) {
+  const clone = JSON.parse(JSON.stringify(cfg));
+  for (const keys of SECRET_PATHS) {
+    let node = clone;
+    for (const key of keys.slice(0, -1)) {
+      if (!node) break;
+      node = node[key];
+    }
+    const last = keys[keys.length - 1];
+    if (node && node[last]) node[last] = SECRET_MASK;
+  }
+  return clone;
+}
+
+/** Strip masked values out of an incoming settings patch. */
+function dropMaskedSecrets(patch) {
+  for (const keys of SECRET_PATHS) {
+    let node = patch;
+    for (const key of keys.slice(0, -1)) {
+      if (!node) break;
+      node = node[key];
+    }
+    const last = keys[keys.length - 1];
+    if (node && node[last] === SECRET_MASK) delete node[last];
+  }
+  return patch;
+}
+
 /* --------------------------------------------------------------- routes --- */
 
 async function handleApi(req, res, url) {
@@ -373,7 +417,7 @@ async function handleApi(req, res, url) {
         stats: store.stats(),
         orders: store.getOrders().slice().reverse(),
         products: store.getProducts({ includeInactive: true }),
-        config: config.load(),
+        config: maskSecrets(config.load()),
         labels: {
           order: store.ORDER_STATUS_LABELS,
           payment: store.PAYMENT_STATUS_LABELS
@@ -434,7 +478,21 @@ async function handleApi(req, res, url) {
     if (pathname === "/api/admin/products" && method === "POST") {
       const body = await readBody(req);
       if (!body.id) return fail(res, 400, "Product id is required");
-      return send(res, 200, { ok: true, product: store.saveProduct(body) });
+      const product = store.saveProduct(body);
+
+      // With GitHub storage the images are permanent but the catalog that
+      // points at them still lives on a disposable disk, so commit it too.
+      let catalogSaved = null;
+      if (storage.provider() === "github") {
+        try {
+          await storage.saveCatalog(store.getProducts({ includeInactive: true }));
+          catalogSaved = true;
+        } catch (e) {
+          catalogSaved = false;
+          console.warn("[storage] catalog commit failed:", e.message);
+        }
+      }
+      return send(res, 200, { ok: true, product, catalogSaved });
     }
 
     if (/^\/api\/admin\/products\/[\w-]+$/.test(pathname) && method === "DELETE") {
@@ -443,12 +501,20 @@ async function handleApi(req, res, url) {
 
     if (pathname === "/api/admin/upload" && method === "POST") {
       const body = await readBody(req);
-      const src = store.saveImage(body.dataUrl, body.hint || "product");
-      return send(res, 201, { ok: true, src });
+      const src = await storage.saveImage(body.dataUrl, body.hint || "product", store.saveImage);
+      return send(res, 201, { ok: true, src, provider: storage.provider() });
+    }
+
+    if (pathname === "/api/admin/test-storage" && method === "POST") {
+      try {
+        return send(res, 200, { ok: true, provider: storage.provider(), result: await storage.testConnection() });
+      } catch (e) {
+        return fail(res, 400, e.message);
+      }
     }
 
     if (pathname === "/api/admin/settings" && method === "POST") {
-      const body = await readBody(req);
+      const body = dropMaskedSecrets(await readBody(req));
       if (body.newPassword) {
         if (String(body.newPassword).length < 6) return fail(res, 400, "Password must be at least 6 characters");
         body.admin = { ...(body.admin || {}), passwordHash: config.sha256(body.newPassword) };

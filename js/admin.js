@@ -1194,6 +1194,28 @@ const Admin = {
         </section>
 
         <section class="rf-settings-card">
+          <h3>📷 Where photographs are stored</h3>
+          <p class="rf-admin-hint">
+            This host rebuilds its filesystem on every deploy, so photos saved to disk are lost.
+            Committing them to your GitHub repository keeps them permanently, at no cost.
+          </p>
+          <div class="rf-field">
+            <label for="setStorageProvider">Storage</label>
+            <select id="setStorageProvider" onchange="Admin.toggleStorageFields(this.value)">
+              <option value="local" ${cfg.storage?.provider !== "github" ? "selected" : ""}>
+                Server disk — only safe with a persistent disk or on your own machine
+              </option>
+              <option value="github" ${cfg.storage?.provider === "github" ? "selected" : ""}>
+                GitHub repository — free and permanent
+              </option>
+            </select>
+          </div>
+          <div id="storageFields">${this.renderStorageFields(cfg.storage?.provider, cfg)}</div>
+          <button class="btn btn-outline btn-sm" onclick="Admin.testStorage()">Test connection</button>
+          <div id="storageTestResult" class="rf-admin-hint"></div>
+        </section>
+
+        <section class="rf-settings-card">
           <h3>🖼️ Homepage hero</h3>
           <p class="rf-admin-hint">
             The large garment on the front page. Only designs with a real photograph can be
@@ -1253,6 +1275,56 @@ const Admin = {
           <button class="btn btn-outline" onclick="Admin.signOut()">Sign out</button>
         </div>
       </div>`;
+  },
+
+  renderStorageFields(provider, cfg) {
+    if (provider !== "github") {
+      return `<p class="rf-admin-hint">
+        Photographs are written to the server's disk. Correct on a VPS or your own machine —
+        but on a free container host they disappear on the next deploy.
+      </p>`;
+    }
+    return `
+      <div class="rf-field">
+        <label for="setGithubRepo">Repository</label>
+        <input type="text" id="setGithubRepo" placeholder="akthernaimudheen/rejifash"
+               value="${this.esc(cfg.storage?.github?.repository || "")}">
+      </div>
+      <div class="rf-field">
+        <label for="setGithubBranch">Branch</label>
+        <input type="text" id="setGithubBranch" value="${this.esc(cfg.storage?.github?.branch || "main")}">
+      </div>
+      <div class="rf-field">
+        <label for="setGithubToken">Access token</label>
+        <input type="password" id="setGithubToken" autocomplete="off"
+               value="${this.esc(cfg.storage?.github?.token || "")}">
+        <span class="rf-field-hint">
+          github.com → Settings → Developer settings → <strong>Fine-grained tokens</strong>.
+          Give it access to this one repository only, with <strong>Contents: Read and write</strong>.
+          Better still, set <code>GITHUB_TOKEN</code> in your host's environment variables so it
+          never passes through this page.
+        </span>
+      </div>`;
+  },
+
+  toggleStorageFields(provider) {
+    document.getElementById("storageFields").innerHTML = this.renderStorageFields(provider, this.data.config);
+  },
+
+  async testStorage() {
+    const target = document.getElementById("storageTestResult");
+    target.textContent = "Checking…";
+    try {
+      const data = await RejiAPI.adminTestStorage();
+      target.innerHTML =
+        data.provider === "github"
+          ? `✅ Connected to <strong>${this.esc(data.result.repository)}</strong>
+             (branch ${this.esc(data.result.branch)}). Photographs will be committed there.`
+          : `Storage is set to the server disk. Nothing to test — but on this host, uploads will
+             not survive a redeploy.`;
+    } catch (e) {
+      target.innerHTML = `⚠️ ${this.esc(e.message)}`;
+    }
   },
 
   renderProviderFields(provider, cfg) {
@@ -1330,8 +1402,21 @@ const Admin = {
       return;
     }
 
+    const storageProvider = value("setStorageProvider");
     const provider = value("setWaProvider");
     const patch = {
+      storage: {
+        provider: storageProvider,
+        ...(storageProvider === "github"
+          ? {
+              github: {
+                repository: value("setGithubRepo"),
+                branch: value("setGithubBranch") || "main",
+                token: value("setGithubToken")
+              }
+            }
+          : {})
+      },
       merchant: {
         upiVpa: vpa,
         upiPayeeName: value("setPayee"),
