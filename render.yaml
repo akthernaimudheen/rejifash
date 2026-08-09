@@ -11,7 +11,8 @@ services:
     runtime: node
     plan: free
     region: singapore # closest Render region to India
-    buildCommand: echo "no build step — zero dependencies"
+    # Kept ASCII-only: this string is executed by the build shell.
+    buildCommand: echo "no build step - zero dependencies"
     startCommand: node server/server.js
     healthCheckPath: /api/config
 
@@ -37,8 +38,12 @@ services:
       - key: WHATSAPP_PROVIDER
         value: link
 
+      # Empty rather than prompted: WHATSAPP_PROVIDER is "link" by default, so
+      # this is unused until you switch provider. Asking for it during the
+      # first deploy is friction with nothing behind it. Fill it in from the
+      # Render dashboard when you turn on automatic alerts.
       - key: CALLMEBOT_API_KEY
-        sync: false
+        value: ""
 
       # DATA_DIR is deliberately NOT set here. Left unset, orders are written
       # inside the project directory, which is always writable. Only point it
