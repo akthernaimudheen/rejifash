@@ -119,7 +119,11 @@ To fix it, switch to a paid instance and uncomment the `disk:` block at the
 bottom of `render.yaml` — it mounts persistent storage at `/var/data`, which is
 where `DATA_DIR` already points.
 
-**First request after idle takes ~30 seconds** while the container wakes.
+**First request after idle takes ~30 seconds** while the container wakes. If
+you're sending the link to a client, that cold start is the first thing they'll
+experience. Point a free uptime pinger (cron-job.org, UptimeRobot) at
+`https://rejifash.onrender.com/api/config` every 10 minutes and it stays warm —
+that path is the health check, so it's cheap and returns JSON.
 
 ### Your own domain in front of Render
 
