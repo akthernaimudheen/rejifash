@@ -1,0 +1,23 @@
+# Runtime data — never commit. Holds live orders (customer names, phone
+# numbers, addresses) and the admin password hash / WhatsApp API keys.
+data/
+
+# Uploaded and processed product photography is runtime content too.
+# Remove this line if you'd rather version your catalog images.
+assets/products/*
+!assets/products/.gitkeep
+
+# Local environment
+.env
+.env.*
+!.env.example
+
+node_modules/
+npm-debug.log*
+*.log
+*.tmp
+
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

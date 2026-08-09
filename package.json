@@ -1,0 +1,16 @@
+{
+  "name": "reji-fashions",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Ethnic-wear storefront with UPI payments, WhatsApp order alerts, order tracking and an admin dashboard with a raw-photo studio. No runtime dependencies.",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js",
+    "check": "node --check server/server.js && node --check server/store.js && node --check server/config.js && node --check server/notify.js"
+  },
+  "dependencies": {}
+}

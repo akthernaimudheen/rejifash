@@ -1,0 +1,155 @@
+/* ==========================================================================
+   REJI FASHIONS - Order tracking page
+   ========================================================================== */
+
+.rf-track-container { padding: 2.5rem 0 4rem; max-width: 940px; }
+
+.rf-track-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 1rem;
+  align-items: end;
+  background: var(--rf-bg-surface);
+  border: 1px solid var(--rf-border-subtle);
+  border-radius: var(--rf-radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--rf-shadow-sm);
+  margin-bottom: 1.5rem;
+}
+.rf-track-form .rf-field { margin-bottom: 0; }
+
+.rf-track-recent { margin-bottom: 2rem; }
+.rf-track-recent-title {
+  font-size: 0.78rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--rf-text-muted); margin-bottom: 0.6rem;
+}
+.rf-track-recent-list { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.rf-track-recent-item {
+  display: flex; flex-direction: column; gap: 0.1rem;
+  padding: 0.6rem 0.9rem; text-align: left;
+  background: var(--rf-bg-surface);
+  border: 1px solid var(--rf-border-subtle);
+  border-radius: var(--rf-radius-sm);
+  cursor: pointer; font-family: inherit;
+  transition: border-color var(--transition-fast);
+}
+.rf-track-recent-item:hover { border-color: var(--rf-gold-500); }
+.rf-track-recent-item strong { font-size: 0.85rem; color: var(--rf-text-primary); }
+.rf-track-recent-item span { font-size: 0.72rem; color: var(--rf-text-muted); }
+
+.rf-track-loading, .rf-track-error {
+  padding: 1.5rem;
+  border-radius: var(--rf-radius-md);
+  text-align: center;
+}
+.rf-track-loading { color: var(--rf-text-muted); }
+.rf-track-error {
+  background: #FEF2F2; border: 1px solid #FECACA; color: #991B1B;
+}
+.rf-track-error p { font-size: 0.85rem; margin: 0.5rem 0 0.85rem; color: #7F1D1D; }
+
+/* ------------------------------------------------------- order card --- */
+
+.rf-track-card {
+  background: var(--rf-bg-surface);
+  border: 1px solid var(--rf-border-subtle);
+  border-radius: var(--rf-radius-lg);
+  box-shadow: var(--rf-shadow-md);
+  overflow: hidden;
+}
+
+.rf-track-head {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 1rem; flex-wrap: wrap;
+  padding: 1.75rem;
+  background: var(--rf-bg-surface-alt);
+  border-bottom: 1px solid var(--rf-border-subtle);
+}
+.rf-track-head h2 {
+  font-family: var(--font-serif); font-size: 1.6rem; font-weight: 800;
+  margin: 0.4rem 0 0.2rem;
+}
+.rf-track-head p { font-size: 0.8rem; color: var(--rf-text-muted); }
+.rf-track-total { text-align: right; }
+.rf-track-total span { display: block; font-size: 0.72rem; color: var(--rf-text-muted); }
+.rf-track-total strong { font-family: var(--font-serif); font-size: 1.6rem; color: var(--rf-wine-700); }
+
+.rf-track-banner {
+  margin: 1.5rem 1.75rem;
+  padding: 1.15rem 1.35rem;
+  border-radius: var(--rf-radius-md);
+}
+.rf-track-banner strong { display: block; margin-bottom: 0.3rem; }
+.rf-track-banner p { font-size: 0.85rem; line-height: 1.6; }
+.rf-track-banner--ok   { background: #ECFDF5; border: 1px solid #A7F3D0; color: #065F46; }
+.rf-track-banner--info { background: #EFF6FF; border: 1px solid #BFDBFE; color: #1E40AF; }
+.rf-track-banner--warn { background: #FFFBEB; border: 1px solid #FDE68A; color: #92400E; }
+.rf-track-banner .btn { margin-top: 0.75rem; }
+
+.rf-track-pay {
+  margin: 1.5rem 1.75rem;
+  padding: 1.5rem;
+  background: var(--rf-gold-50);
+  border: 1px solid var(--rf-border-gold);
+  border-radius: var(--rf-radius-md);
+}
+.rf-track-pay h3 { font-family: var(--font-serif); font-size: 1.25rem; margin-bottom: 0.3rem; }
+.rf-track-pay > p { font-size: 0.85rem; color: var(--rf-text-secondary); margin-bottom: 1.25rem; }
+.rf-track-pay-grid {
+  display: flex; gap: 1.5rem; align-items: center;
+  flex-wrap: wrap; margin-bottom: 1.5rem;
+}
+
+.rf-track-section { padding: 0 1.75rem 1.5rem; }
+.rf-track-section h3 {
+  font-size: 0.8rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--rf-text-muted);
+  margin-bottom: 0.85rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rf-border-subtle);
+}
+.rf-track-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.rf-track-two-col h3 { border-top: none; padding-top: 0; }
+.rf-track-address { font-size: 0.875rem; line-height: 1.7; color: var(--rf-text-secondary); }
+
+.rf-track-items { display: flex; flex-direction: column; gap: 0.85rem; }
+.rf-track-item {
+  display: grid; grid-template-columns: 56px 1fr auto;
+  gap: 0.9rem; align-items: center;
+}
+.rf-track-item-thumb { width: 56px; }
+.rf-track-item strong { display: block; font-size: 0.9rem; }
+.rf-track-item span { font-size: 0.78rem; color: var(--rf-text-muted); }
+.rf-track-item em { display: block; font-style: normal; font-size: 0.75rem; color: var(--rf-gold-700); }
+.rf-track-item-price { font-weight: 700; font-size: 0.9rem; }
+
+.rf-track-events { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+.rf-track-events li {
+  display: grid; grid-template-columns: 150px 1fr;
+  gap: 0.75rem; font-size: 0.85rem;
+  padding-bottom: 0.6rem; border-bottom: 1px dashed var(--rf-border-subtle);
+}
+.rf-track-event-time { font-size: 0.75rem; color: var(--rf-text-muted); }
+.rf-track-events em { display: block; font-style: normal; font-size: 0.78rem; color: var(--rf-text-muted); }
+
+.rf-track-actions {
+  display: flex; gap: 0.75rem; flex-wrap: wrap;
+  padding: 1.5rem 1.75rem;
+  background: var(--rf-bg-surface-alt);
+  border-top: 1px solid var(--rf-border-subtle);
+}
+
+.rf-timeline-track--wide { margin: 1.5rem 1.75rem 2rem; }
+
+@media (max-width: 760px) {
+  .rf-track-form { grid-template-columns: 1fr; }
+  .rf-track-two-col { grid-template-columns: 1fr; }
+  .rf-track-events li { grid-template-columns: 1fr; gap: 0.15rem; }
+  .rf-timeline-track--wide { overflow-x: auto; gap: 1.25rem; justify-content: flex-start; }
+  .rf-timeline-track--wide .rf-timeline-node { flex: 0 0 80px; }
+  .rf-track-head, .rf-track-section, .rf-track-actions,
+  .rf-track-banner, .rf-track-pay { padding-left: 1.15rem; padding-right: 1.15rem; }
+  .rf-track-banner, .rf-track-pay, .rf-timeline-track--wide { margin-left: 1.15rem; margin-right: 1.15rem; }
+}

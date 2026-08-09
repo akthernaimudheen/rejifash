@@ -1,0 +1,53 @@
+# Render blueprint — https://render.com/docs/blueprint-spec
+#
+# Deploying from this file gives the shop a subdomain at
+#   https://<service-name>.onrender.com
+#
+# Change `name` below to claim a different subdomain (it must be globally
+# unique on Render), then set ADMIN_PASSWORD and UPI_VPA in the dashboard.
+services:
+  - type: web
+    name: rejifash
+    runtime: node
+    plan: free
+    region: singapore # closest region to India
+    buildCommand: "" # nothing to build — no dependencies
+    startCommand: node server/server.js
+    healthCheckPath: /api/config
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+      # Orders and uploaded photographs are written here. On the FREE plan this
+      # is ephemeral: everything is wiped on each deploy and on the automatic
+      # spin-down after 15 minutes idle. Attach the disk below on a paid plan
+      # to keep them.
+      - key: DATA_DIR
+        value: /var/data
+
+      # Set in the Render dashboard, not here — the server refuses to boot in
+      # production while the default password is in place.
+      - key: ADMIN_PASSWORD
+        sync: false
+
+      # The UPI ID every payment QR points at. Set this before taking orders.
+      - key: UPI_VPA
+        sync: false
+
+      - key: WHATSAPP_NUMBER
+        value: "919074666413"
+
+      # "link" (manual) | "callmebot" | "cloud" | "twilio"
+      - key: WHATSAPP_PROVIDER
+        value: link
+
+      - key: CALLMEBOT_API_KEY
+        sync: false
+
+    # Persistent storage. Requires a paid instance type — uncomment together
+    # with a `plan:` change, otherwise orders do not survive a restart.
+    # disk:
+    #   name: reji-data
+    #   mountPath: /var/data
+    #   sizeGB: 1

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Shop Admin | Reji Fashions</title>
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2246%22 fill=%22%230C2E28%22 stroke=%22%23D4AF37%22 stroke-width=%224%22/><text y=%2258%22 x=%2250%22 font-size=%2238%22 text-anchor=%22middle%22 fill=%22%23F3E5AB%22 font-family=%22serif%22 font-weight=%22bold%22>RF</text></svg>">
+
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/admin.css">
+</head>
+<body class="rf-admin-body">
+
+  <!-- Sign in -->
+  <div class="rf-admin-login" id="adminLogin">
+    <form class="rf-admin-login-card" id="loginForm">
+      <div class="brand-monogram">RF</div>
+      <h1>Reji Fashions</h1>
+      <p class="rf-admin-login-sub">Shop admin dashboard</p>
+
+      <div class="rf-field">
+        <label for="adminUser">Username</label>
+        <input type="text" id="adminUser" value="admin" autocomplete="username" required>
+      </div>
+      <div class="rf-field">
+        <label for="adminPass">Password</label>
+        <input type="password" id="adminPass" autocomplete="current-password" required>
+      </div>
+
+      <button type="submit" class="btn btn-wine btn-lg">Sign in</button>
+      <div class="rf-admin-login-error" id="loginError"></div>
+      <p class="rf-admin-login-hint">
+        Default sign-in is <code>admin</code> / <code>reji@admin</code> — change it under Settings.
+      </p>
+      <p class="rf-admin-login-mode" id="loginMode"></p>
+      <a class="rf-text-link" href="index.html">← Back to the storefront</a>
+    </form>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="adminApp" style="display:none">
+    <header class="rf-admin-header">
+      <div class="rf-admin-header-left">
+        <div class="brand-monogram">RF</div>
+        <div>
+          <h1>Shop admin</h1>
+          <span class="rf-admin-chip" id="adminModeChip">…</span>
+        </div>
+      </div>
+      <div class="rf-admin-header-right">
+        <a class="btn btn-outline btn-sm" href="index.html" target="_blank" rel="noopener">View storefront ↗</a>
+        <button class="btn btn-outline btn-sm" onclick="Admin.signOut()">Sign out</button>
+      </div>
+    </header>
+
+    <div class="rf-admin-stats" id="adminStats"></div>
+    <nav class="rf-admin-tabs" id="adminTabs"></nav>
+    <main class="rf-admin-main" id="adminBody"></main>
+  </div>
+
+  <script src="js/products-data.js"></script>
+  <script src="js/qrcode.js"></script>
+  <script src="js/upi.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/visual-engine.js"></script>
+  <script src="js/media.js"></script>
+  <script src="js/image-studio.js"></script>
+  <script src="js/ui-interactions.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

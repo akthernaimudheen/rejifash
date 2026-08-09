@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track your order | Reji Fashions</title>
+  <meta name="description" content="Track your Reji Fashions order, complete a pending UPI payment and see live tailoring and dispatch updates.">
+  <meta name="theme-color" content="#0C2E28">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2246%22 fill=%22%230C2E28%22 stroke=%22%23D4AF37%22 stroke-width=%224%22/><text y=%2258%22 x=%2250%22 font-size=%2242%22 text-anchor=%22middle%22 fill=%22%23F3E5AB%22 font-family=%22serif%22 font-weight=%22bold%22>RF</text></svg>">
+
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/storefront.css">
+  <link rel="stylesheet" href="styles/track.css">
+  <link rel="stylesheet" href="styles/responsive.css">
+</head>
+<body>
+
+  <div data-rf-chrome="header" data-compact="true"></div>
+
+  <main class="container rf-track-container">
+    <div class="section-header">
+      <span class="section-subtitle">Order tracking</span>
+      <h1 class="section-title">Where's my <em>order</em>?</h1>
+      <p class="section-desc">
+        Enter your order ID and the mobile number you used at checkout.
+        If your payment is still pending you can complete it here.
+      </p>
+    </div>
+
+    <form class="rf-track-form" id="lookupForm">
+      <div class="rf-field">
+        <label for="lookupId">Order ID</label>
+        <input type="text" id="lookupId" placeholder="RF-260808-0001" autocomplete="off" required>
+      </div>
+      <div class="rf-field">
+        <label for="lookupPhone">Mobile number</label>
+        <input type="tel" id="lookupPhone" inputmode="numeric" placeholder="10-digit mobile" required>
+      </div>
+      <button type="submit" class="btn btn-wine">Track order</button>
+    </form>
+
+    <div id="recentOrders" class="rf-track-recent"></div>
+    <div id="trackResult" class="rf-track-result"></div>
+  </main>
+
+  <div data-rf-chrome="overlays"></div>
+  <div data-rf-chrome="footer"></div>
+
+  <script src="js/products-data.js"></script>
+  <script src="js/qrcode.js"></script>
+  <script src="js/upi.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/visual-engine.js"></script>
+  <script src="js/media.js"></script>
+  <script src="js/image-studio.js"></script>
+  <script src="js/site-chrome.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/checkout.js"></script>
+  <script src="js/ui-interactions.js"></script>
+  <script src="js/orders-page.js"></script>
+</body>
+</html>

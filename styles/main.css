@@ -1,0 +1,366 @@
+/* ==========================================================================
+   REJI FASHIONS - Master Design System & Core Styles
+   Luxury Ethnic Wear: Artisanal Churidars, Kurtis & Festive Ensembles
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Brand Theme Colors */
+  --rf-emerald-900: #08211D;
+  --rf-emerald-800: #0C2E28;
+  --rf-emerald-700: #134E48;
+  --rf-emerald-600: #1C6B63;
+  --rf-emerald-50: #EDF7F5;
+
+  --rf-wine-900: #29050C;
+  --rf-wine-800: #3F0A15;
+  --rf-wine-700: #54121E;
+  --rf-wine-600: #72182B;
+  --rf-wine-50: #FBF0F2;
+
+  --rf-gold-900: #73540F;
+  --rf-gold-700: #A8801C;
+  --rf-gold-600: #C59B27;
+  --rf-gold-500: #D4AF37;
+  --rf-gold-400: #E5C07B;
+  --rf-gold-200: #F3E5AB;
+  --rf-gold-50: #FDF9EE;
+
+  /* Surfaces & Canvas */
+  --rf-bg-page: #FAF8F5;
+  --rf-bg-surface: #FFFFFF;
+  --rf-bg-surface-alt: #F4EFEA;
+  --rf-bg-glass: rgba(255, 255, 255, 0.85);
+  --rf-bg-glass-dark: rgba(12, 46, 40, 0.92);
+
+  /* Typography Colors */
+  --rf-text-primary: #1F2421;
+  --rf-text-secondary: #575E59;
+  --rf-text-muted: #8A928D;
+  --rf-text-inverted: #FFFFFF;
+  --rf-text-gold: #C59B27;
+
+  /* Borders & Dividers */
+  --rf-border-subtle: #E8E2D9;
+  --rf-border-medium: #D5CCC0;
+  --rf-border-gold: rgba(212, 175, 55, 0.45);
+  --rf-border-gold-glow: rgba(212, 175, 55, 0.8);
+
+  /* Elevation & Shadows */
+  --rf-shadow-sm: 0 2px 8px rgba(31, 36, 33, 0.04);
+  --rf-shadow-md: 0 8px 24px rgba(31, 36, 33, 0.08);
+  --rf-shadow-lg: 0 16px 40px rgba(31, 36, 33, 0.12);
+  --rf-shadow-gold: 0 8px 30px rgba(212, 175, 55, 0.25);
+  --rf-shadow-wine: 0 10px 30px rgba(84, 18, 30, 0.2);
+
+  /* Radii */
+  --rf-radius-sm: 6px;
+  --rf-radius-md: 12px;
+  --rf-radius-lg: 18px;
+  --rf-radius-xl: 26px;
+  --rf-radius-full: 9999px;
+
+  /* Typography */
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-editorial: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Transitions */
+  --transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Dark / Regal Midnight Mode */
+[data-theme="dark"] {
+  --rf-bg-page: #071714;
+  --rf-bg-surface: #0E2420;
+  --rf-bg-surface-alt: #13322D;
+  --rf-bg-glass: rgba(14, 36, 32, 0.88);
+  --rf-text-primary: #F7F5F0;
+  --rf-text-secondary: #B9C4BE;
+  --rf-text-muted: #7E8D86;
+  --rf-border-subtle: #1C423C;
+  --rf-border-medium: #2A5A52;
+  --rf-shadow-md: 0 8px 32px rgba(0, 0, 0, 0.45);
+  --rf-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.6);
+}
+
+/* Base Reset & Typography */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--rf-bg-page);
+  color: var(--rf-text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  transition: background-color var(--transition-smooth), color var(--transition-smooth);
+}
+
+/* Ambient Background Grain & Glow */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(84, 18, 30, 0.04) 0%, transparent 45%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  outline: none;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  outline: none;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+.container {
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Section Headings & Badges */
+.rf-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--rf-radius-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.rf-badge-gold {
+  background: linear-gradient(135deg, #FBF4DC, #F3E5AB);
+  color: #7A5B10;
+  border: 1px solid var(--rf-border-gold);
+}
+
+.rf-badge-wine {
+  background: var(--rf-wine-50);
+  color: var(--rf-wine-700);
+  border: 1px solid rgba(84, 18, 30, 0.2);
+}
+
+.rf-badge-emerald {
+  background: var(--rf-emerald-50);
+  color: var(--rf-emerald-700);
+  border: 1px solid rgba(19, 78, 72, 0.2);
+}
+
+.section-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 3rem;
+}
+
+.section-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--rf-gold-600);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 2.35rem;
+  font-weight: 700;
+  color: var(--rf-text-primary);
+  line-height: 1.25;
+  margin-bottom: 0.75rem;
+}
+
+.section-title em {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  color: var(--rf-wine-700);
+  font-weight: 600;
+}
+
+.section-desc {
+  font-size: 1rem;
+  color: var(--rf-text-secondary);
+}
+
+/* Primary & Secondary Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.75rem;
+  border-radius: var(--rf-radius-sm);
+  font-weight: 600;
+  font-size: 0.925rem;
+  letter-spacing: 0.03em;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--rf-emerald-800) 0%, var(--rf-emerald-900) 100%);
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(12, 46, 40, 0.25);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--rf-emerald-700) 0%, var(--rf-emerald-800) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(12, 46, 40, 0.35);
+  border-color: var(--rf-gold-500);
+}
+
+.btn-wine {
+  background: linear-gradient(135deg, var(--rf-wine-700) 0%, var(--rf-wine-900) 100%);
+  color: #FFFFFF;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: var(--rf-shadow-wine);
+}
+
+.btn-wine:hover {
+  background: linear-gradient(135deg, var(--rf-wine-600) 0%, var(--rf-wine-800) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(84, 18, 30, 0.4);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, #DFB743 0%, #C59B27 100%);
+  color: #241400;
+  box-shadow: var(--rf-shadow-gold);
+  border: 1px solid #FFE999;
+}
+
+.btn-gold:hover {
+  background: linear-gradient(135deg, #ECD06E 0%, #D4AF37 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(212, 175, 55, 0.4);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--rf-text-primary);
+  border: 1.5px solid var(--rf-border-medium);
+}
+
+.btn-outline:hover {
+  border-color: var(--rf-gold-600);
+  background: var(--rf-bg-surface-alt);
+  color: var(--rf-text-primary);
+}
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.825rem;
+}
+
+.btn-lg {
+  padding: 1rem 2.25rem;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+
+/* Monogram Logo */
+.brand-logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.brand-monogram {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--rf-emerald-900), var(--rf-wine-900));
+  border: 1.5px solid var(--rf-gold-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--rf-gold-400);
+  font-family: var(--font-editorial);
+  font-size: 1.35rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25);
+  position: relative;
+}
+
+.brand-monogram::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  border: 1px dashed rgba(212, 175, 55, 0.4);
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--rf-text-primary);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.brand-title span {
+  color: var(--rf-wine-700);
+}
+
+.brand-tagline {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rf-gold-600);
+}
