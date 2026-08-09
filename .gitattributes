@@ -1,0 +1,21 @@
+# Normalise to LF in the repository. Without this, checking out on Windows and
+# committing back stores CRLF, and a shell script with CRLF fails on Linux with
+# "bad interpreter: /usr/bin/env bash^M" — which is exactly what setup-vps.sh
+# would hit on a VPS.
+* text=auto eol=lf
+
+# These must be LF wherever they are checked out, Windows included.
+*.sh   text eol=lf
+*.conf text eol=lf
+*.yaml text eol=lf
+*.yml  text eol=lf
+Dockerfile text eol=lf
+*.service  text eol=lf
+
+# Binary — never touch.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.webp binary
+*.ico  binary
+*.woff2 binary
