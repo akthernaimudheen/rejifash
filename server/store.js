@@ -143,12 +143,20 @@ function deriveHighlights(p) {
   return out.slice(0, 6);
 }
 
+// A committed catalog, exported from the admin dashboard. This is what makes a
+// real catalog survive on a host with no persistent disk: data/products.json is
+// wiped on every deploy, but this file and the photographs it references are
+// part of the repository, so they come back with the build.
+const CATALOG_SEED_PATH = path.join(ROOT, "catalog.json");
+
 function getProducts({ includeInactive = false } = {}) {
+  // Live edits first, then the committed catalog, then the bundled demo data.
   let list = readJson(PRODUCTS_PATH, null);
-  if (!list) {
-    list = seedProductsFromBrowserFile();
-    if (list.length) writeJson(PRODUCTS_PATH, list);
-  }
+  if (!list) list = readJson(CATALOG_SEED_PATH, null);
+  if (!list) list = seedProductsFromBrowserFile();
+
+  if (list && list.length && !fs.existsSync(PRODUCTS_PATH)) writeJson(PRODUCTS_PATH, list);
+
   list = (list || []).map(normalizeProduct);
   return includeInactive ? list : list.filter(p => p.active);
 }

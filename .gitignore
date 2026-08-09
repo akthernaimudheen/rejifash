@@ -2,10 +2,12 @@
 # numbers, addresses) and the admin password hash / WhatsApp API keys.
 data/
 
-# Uploaded and processed product photography is runtime content too.
-# Remove this line if you'd rather version your catalog images.
-assets/products/*
-!assets/products/.gitkeep
+# Product photography IS tracked, deliberately.
+#
+# On a host without a persistent disk (Render's free plan, most container
+# platforms) anything written at runtime is destroyed on every deploy and every
+# idle spin-down. Photographs committed here are part of the build instead, so
+# they survive. See docs/CATALOG.md for the workflow.
 
 # Local environment
 .env

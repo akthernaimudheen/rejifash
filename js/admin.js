@@ -528,12 +528,17 @@ const Admin = {
 
     const products = this.data.products || [];
     return `
+      ${this.renderPersistenceWarning()}
+
       <div class="rf-admin-toolbar">
         <div class="rf-admin-hint">
           ${products.filter(p => !Media.hasPhotos(p)).length} of ${products.length} designs still use
           illustrated artwork. Upload real photos through the Image Studio to replace them.
         </div>
-        <button class="btn btn-wine btn-sm" onclick="Admin.newProduct()">+ New design</button>
+        <div class="rf-admin-actions">
+          <button class="btn btn-outline btn-sm" onclick="Admin.exportCatalog()">⬇ Export catalog</button>
+          <button class="btn btn-wine btn-sm" onclick="Admin.newProduct()">+ New design</button>
+        </div>
       </div>
 
       <div class="rf-admin-products">
@@ -563,6 +568,55 @@ const Admin = {
           )
           .join("")}
       </div>`;
+  },
+
+  /**
+   * Warn when photographs are being written somewhere that will be destroyed.
+   *
+   * Render's free plan (and most container hosts without a mounted volume)
+   * wipe the filesystem on every deploy and every idle spin-down. Uploading a
+   * catalog of photography there and assuming it is safe is a genuinely painful
+   * way to find that out, so say it before the work is lost rather than after.
+   */
+  renderPersistenceWarning() {
+    if (this.data.local) return "";
+    const onLocalhost = /^(localhost|127\.0\.0\.1)/.test(location.hostname);
+    if (onLocalhost) return "";
+
+    return `
+      <div class="rf-admin-banner rf-admin-banner--warn">
+        <strong>Photographs uploaded here may not survive the next deploy.</strong>
+        <p>
+          This host has no persistent disk, so anything written at runtime — uploaded
+          photos and catalog edits — is wiped when the service redeploys or sleeps.
+          To keep a catalog permanently, either attach a disk on a paid plan, or do the
+          photography on your own machine and commit it:
+        </p>
+        <ol>
+          <li>Run <code>node server/server.js</code> locally and upload photos there</li>
+          <li>Press <strong>Export catalog</strong> and save the file as <code>catalog.json</code> in the project root</li>
+          <li><code>git add catalog.json assets/products &amp;&amp; git commit &amp;&amp; git push</code></li>
+        </ol>
+        <p>Committed photographs are part of the build, so they come back with every deploy.</p>
+      </div>`;
+  },
+
+  /** Download the catalog as the committable catalog.json seed file. */
+  exportCatalog() {
+    const catalog = (this.data.products || []).map(p => ({ ...p }));
+    const blob = new Blob([JSON.stringify(catalog, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "catalog.json";
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+
+    const withPhotos = catalog.filter(p => (p.media || []).length).length;
+    this.toast(
+      `Exported ${catalog.length} designs (${withPhotos} with photos). ` +
+        `Save as <strong>catalog.json</strong> in the project root and commit it.`
+    );
   },
 
   newProduct() {
