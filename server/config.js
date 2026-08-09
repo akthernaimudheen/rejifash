@@ -67,7 +67,9 @@ const DEFAULTS = {
     codMaxOrderValue: 8000,
     currency: "INR",
     // Minutes a customer has to complete the UPI payment before the QR expires.
-    upiWindowMinutes: 15
+    upiWindowMinutes: 15,
+    // Which design fronts the homepage. null = pick automatically.
+    heroProductId: null
   }
 };
 

@@ -1140,6 +1140,29 @@ const Admin = {
         </section>
 
         <section class="rf-settings-card">
+          <h3>🖼️ Homepage hero</h3>
+          <p class="rf-admin-hint">
+            The large garment on the front page. Only designs with a real photograph can be
+            chosen — anything still on illustrated artwork is skipped.
+          </p>
+          <div class="rf-field">
+            <label for="setHeroProduct">Featured design</label>
+            <select id="setHeroProduct">
+              <option value="">Choose automatically (highest rated featured design)</option>
+              ${(this.data.products || [])
+                .filter(p => Media.hasPhotos(p))
+                .map(
+                  p =>
+                    `<option value="${this.esc(p.id)}" ${
+                      cfg.store.heroProductId === p.id ? "selected" : ""
+                    }>${this.esc(p.name)}</option>`
+                )
+                .join("")}
+            </select>
+          </div>
+        </section>
+
+        <section class="rf-settings-card">
           <h3>🛍️ Store rules</h3>
           <div class="rf-settings-grid">
             <div class="rf-field">
@@ -1266,7 +1289,8 @@ const Admin = {
         freeShippingThreshold: Number(value("setFreeShip")),
         codMaxOrderValue: Number(value("setCodMax")),
         upiWindowMinutes: Number(value("setUpiWindow")),
-        codEnabled: document.getElementById("setCodEnabled")?.checked ?? true
+        codEnabled: document.getElementById("setCodEnabled")?.checked ?? true,
+        heroProductId: value("setHeroProduct") || null
       }
     };
 

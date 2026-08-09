@@ -30,6 +30,7 @@ const AppState = {
     this.coupons = coupons;
 
     this.pruneCart();
+    this.renderHero();
     this.renderProducts();
     this.renderLookbooks();
     this.renderTestimonials();
@@ -176,6 +177,58 @@ const AppState = {
         if (this.activeSort === "newest") return (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0);
         return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
       });
+  },
+
+  /**
+   * Pick the garment that fronts the site.
+   *
+   * Preference order: whatever the shop pinned in Settings, then the highest
+   * rated featured piece that actually has a photograph, then any photographed
+   * piece. Only if nothing has been shot does the illustration stay.
+   */
+  heroProduct() {
+    const pinned = RejiAPI.config.store?.heroProductId;
+    const photographed = this.products.filter(p => Media.hasPhotos(p));
+    if (!photographed.length) return null;
+
+    return (
+      photographed.find(p => p.id === pinned) ||
+      photographed.filter(p => p.featured).sort((a, b) => b.rating - a.rating)[0] ||
+      photographed[0]
+    );
+  },
+
+  renderHero() {
+    const mount = document.getElementById("heroVisual");
+    if (!mount) return;
+
+    const product = this.heroProduct();
+    if (!product) return; // no photography yet — keep the illustration
+
+    const shot = Media.gallery(product)[0];
+    const href = `product.html?id=${encodeURIComponent(product.id)}`;
+
+    mount.innerHTML = `
+      <a class="rf-hero-card rf-hero-card--photo" href="${href}"
+         aria-label="${Media.escapeHtml(product.name)}">
+        <div class="rf-hero-image-wrap">
+          <span class="rf-badge rf-badge-gold rf-hero-card-badge">
+            ${Media.escapeHtml(product.badge || "Featured")}
+          </span>
+          <img class="rf-hero-photo"
+               src="${Media.escapeHtml(shot.zoomSrc || shot.src)}"
+               alt="${Media.escapeHtml(shot.alt || product.name)}"
+               fetchpriority="high" decoding="async">
+          <div class="rf-hero-float-tag">
+            <h5>${Media.escapeHtml(product.name)}</h5>
+            <p>${Media.escapeHtml(product.tagline || product.fabric)}</p>
+            <span class="rf-hero-float-price">
+              ${this.formatPrice(product.price)}
+              <em>${Media.escapeHtml(product.discount || "")}</em>
+            </span>
+          </div>
+        </div>
+      </a>`;
   },
 
   renderProducts() {
