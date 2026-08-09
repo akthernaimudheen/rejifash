@@ -331,8 +331,26 @@ const AppState = {
     }
 
     this.persistCart();
-    UIInteractions.showToast(`✨ <strong>${Media.escapeHtml(product.name)}</strong> (${size}) added to your bag`);
-    this.openCartDrawer();
+
+    // Deliberately do NOT open the bag drawer here. Slamming it over the page
+    // on every add stops you browsing, which makes adding three or four things
+    // from the grid needlessly slow. The toast carries the link instead.
+    const count = this.cart.reduce((sum, i) => sum + i.quantity, 0);
+    UIInteractions.showToast(
+      `✨ <strong>${Media.escapeHtml(product.name)}</strong> · size ${Media.escapeHtml(size)}
+       <button class="rf-toast-action" onclick="AppState.openCartDrawer()">View bag (${count})</button>`,
+      { key: "cart" }
+    );
+    this.bumpCartBadge();
+  },
+
+  /** Small pulse on the bag icon — the feedback the drawer used to provide. */
+  bumpCartBadge() {
+    const badge = document.getElementById("cartCountBadge");
+    if (!badge) return;
+    badge.classList.remove("rf-badge-bump");
+    void badge.offsetWidth; // restart the animation
+    badge.classList.add("rf-badge-bump");
   },
 
   updateCartQuantity(index, change) {
@@ -624,6 +642,9 @@ const AppState = {
       const product = this.products.find(p => p.id === id);
       if (product) this.addToCart(id, "M");
     });
+    // Adding a whole styled look is a deliberate, one-off action, so showing
+    // the bag here is help rather than interruption.
+    this.openCartDrawer();
   },
 
   renderTestimonials() {

@@ -148,11 +148,26 @@ const ImageStudio = (() => {
       for (let y = height - band; y < height; y += step) sample(x, y);
     }
 
+    // Median over a *copy* — sorting in place would break the per-pixel
+    // correspondence between the three channel arrays, which the spread
+    // calculation below depends on.
     const median = arr => {
-      arr.sort((a, b) => a - b);
-      return arr[Math.floor(arr.length / 2)] || 255;
+      const sorted = [...arr].sort((a, b) => a - b);
+      return sorted[Math.floor(sorted.length / 2)] || 255;
     };
-    return { r: median(rs), g: median(gs), b: median(bs) };
+
+    const backdrop = { r: median(rs), g: median(gs), b: median(bs) };
+
+    // How much the border varies from its own median. A plain wall scores in
+    // the single digits; a patterned curtain, a wicker chair or a cluttered
+    // room scores far higher, and no colour-distance key will separate that.
+    let deviation = 0;
+    for (let i = 0; i < rs.length; i++) {
+      deviation += colourDistance(rs[i], gs[i], bs[i], backdrop);
+    }
+    backdrop.spread = rs.length ? deviation / rs.length : 0;
+
+    return backdrop;
   }
 
   function colourDistance(r, g, b, ref) {
@@ -330,14 +345,70 @@ const ImageStudio = (() => {
   }
 
   /**
-   * Fade backdrop pixels to transparent so the studio gradient shows through.
-   * The alpha ramps across `feather` units instead of switching hard, which is
-   * what keeps sheer dupattas and stray threads from being cut off.
+   * Fade the backdrop out so the studio gradient shows through.
+   *
+   * This is a flood fill seeded from the frame edge, not a global colour match,
+   * and the difference matters on real garments. A global match removes *any*
+   * pixel near the backdrop colour wherever it appears — which on white
+   * chikankari embroidery against a white wall means punching holes straight
+   * through the embroidery. Only pixels actually connected to the border are
+   * background, so only those are removed.
+   *
+   * Alpha still ramps across `feather` rather than switching hard, which keeps
+   * sheer dupattas and loose threads from being sliced off at the edge.
+   *
+   * @returns {number} fraction of the frame removed, 0..1
    */
-  function cleanBackdrop(data, backdrop, threshold, feather) {
-    for (let i = 0; i < data.length; i += 4) {
+  function cleanBackdrop(data, width, height, backdrop, threshold, feather) {
+    const total = width * height;
+    const isBackground = new Uint8Array(total);
+    // Queued-or-done, marked at push time. Marking on pop instead would let a
+    // pixel be queued once per neighbour and overflow a stack sized `total`.
+    const seen = new Uint8Array(total);
+    const stack = new Int32Array(total);
+    let top = 0;
+
+    const push = idx => {
+      if (!seen[idx]) {
+        seen[idx] = 1;
+        stack[top++] = idx;
+      }
+    };
+
+    const nearBackdrop = idx => {
+      const i = idx * 4;
+      return colourDistance(data[i], data[i + 1], data[i + 2], backdrop) < threshold + feather;
+    };
+
+    // Seed every border pixel.
+    for (let x = 0; x < width; x++) {
+      push(x);
+      push((height - 1) * width + x);
+    }
+    for (let y = 0; y < height; y++) {
+      push(y * width);
+      push(y * width + width - 1);
+    }
+
+    while (top > 0) {
+      const idx = stack[--top];
+      if (!nearBackdrop(idx)) continue;
+      isBackground[idx] = 1;
+
+      const x = idx % width;
+      const y = (idx / width) | 0;
+      if (x > 0) push(idx - 1);
+      if (x < width - 1) push(idx + 1);
+      if (y > 0) push(idx - width);
+      if (y < height - 1) push(idx + width);
+    }
+
+    let removed = 0;
+    for (let idx = 0; idx < total; idx++) {
+      if (!isBackground[idx]) continue;
+      removed++;
+      const i = idx * 4;
       const distance = colourDistance(data[i], data[i + 1], data[i + 2], backdrop);
-      if (distance >= threshold + feather) continue;
       if (distance <= threshold - feather) {
         data[i + 3] = 0;
         continue;
@@ -345,6 +416,8 @@ const ImageStudio = (() => {
       const t = (distance - (threshold - feather)) / (feather * 2);
       data[i + 3] = Math.round(data[i + 3] * clamp(t, 0, 1));
     }
+
+    return removed / total;
   }
 
   /**
@@ -527,8 +600,16 @@ const ImageStudio = (() => {
 
     // Re-read the backdrop after grading so the key matches what we see now.
     const correctedBackdrop = estimateBackdrop(pixels.data, master.width, master.height);
+    let backdropRemoved = 0;
     if (opts.cleanBackground) {
-      cleanBackdrop(pixels.data, correctedBackdrop, opts.subjectThreshold, opts.feather);
+      backdropRemoved = cleanBackdrop(
+        pixels.data,
+        master.width,
+        master.height,
+        correctedBackdrop,
+        opts.subjectThreshold,
+        opts.feather
+      );
     }
 
     const garment = makeCanvas(master.width, master.height);
@@ -565,6 +646,14 @@ const ImageStudio = (() => {
         sourceHeight: bitmap.height,
         subjectFound: bounds.found,
         backdrop: rgbToHex(backdrop.r, backdrop.g, backdrop.b),
+        // How varied the original border was. Above ~28 means a patterned or
+        // cluttered background that no colour key can cleanly separate.
+        backdropSpread: Math.round(backdrop.spread),
+        backdropBusy: backdrop.spread > 28,
+        // Fraction of the frame actually replaced. A clean shot lands around
+        // 0.3–0.6; near zero means the removal silently achieved nothing.
+        backdropRemoved: Number(backdropRemoved.toFixed(3)),
+        backdropRemovalWorked: !opts.cleanBackground || backdropRemoved > 0.12,
         aspect: "3:4",
         options: opts
       }

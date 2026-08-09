@@ -240,6 +240,35 @@
   margin-left: auto;
 }
 
+/* Action link inside a toast — the route to the bag now that adding an item
+   no longer forces the drawer open. */
+.rf-toast-action {
+  display: inline-block;
+  margin-top: 0.4rem;
+  padding: 0;
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--rf-gold-400);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.rf-toast-action:hover { color: var(--rf-gold-200); }
+
+/* Pulse the bag count so adding still registers visually. */
+@keyframes rfBadgeBump {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.45); }
+  100% { transform: scale(1); }
+}
+.rf-badge-bump { animation: rfBadgeBump 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .rf-badge-bump { animation: none; }
+}
+
 .rf-offline-chip {
   display: inline-flex;
   align-items: center;

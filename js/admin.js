@@ -902,6 +902,8 @@ const Admin = {
                      <span class="rf-swatch" style="background:${s.result.colours.dominant}"></span>
                      <span class="rf-swatch" style="background:${s.result.colours.accent}"></span>
                    </div>
+
+                   ${this.renderBackdropVerdict(s.result.meta)}
                    <div class="rf-studio-sizes">
                      ${Object.entries(s.result.outputs)
                        .map(
@@ -926,6 +928,40 @@ const Admin = {
           </div>
         </div>
       </div>`;
+  },
+
+  /**
+   * Say plainly whether the backdrop actually got replaced. Silently handing
+   * back a photo that looks the same as the original is the worst outcome —
+   * the shop owner attaches it thinking it was cleaned up.
+   */
+  renderBackdropVerdict(meta) {
+    if (!meta.options.cleanBackground) return "";
+
+    if (meta.backdropRemovalWorked) {
+      return `<div class="rf-studio-verdict rf-studio-verdict--ok">
+                ✓ Background replaced — ${Math.round(meta.backdropRemoved * 100)}% of the frame
+              </div>`;
+    }
+
+    return `<div class="rf-studio-verdict rf-studio-verdict--warn">
+              <strong>The background could not be removed from this photo.</strong>
+              <p>
+                ${
+                  meta.backdropBusy
+                    ? `The background is too detailed to separate — a patterned curtain, furniture
+                       or a cluttered room. Colour-matching can't tell that apart from the garment.`
+                    : `Too little of the frame matched the backdrop, usually because the garment
+                       colour is close to the wall behind it.`
+                }
+                Only ${Math.round(meta.backdropRemoved * 100)}% was replaced, so what you see on the
+                right is essentially the original photo, just cropped and colour-corrected.
+              </p>
+              <p><strong>What helps:</strong> hang the garment against a plain light wall, bedsheet
+                 or curtain with nothing else in frame, in daylight, and leave a little space around
+                 it. Or raise <em>Subject sensitivity</em> and try again — and if the photo is fine
+                 as it is, just untick background replacement.</p>
+            </div>`;
   },
 
   studioOptions() {

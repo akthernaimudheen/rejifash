@@ -6,7 +6,14 @@ const UIInteractions = {
   activeQuickProduct: null,
   selectedUnit: "inches",
 
-  showToast(messageHtml) {
+  /**
+   * @param {string} messageHtml
+   * @param {{key?: string}} [options] Pass a `key` to make the toast a
+   *   singleton: a new one with the same key replaces the old instead of
+   *   stacking. Adding four things to the bag in a row should leave one
+   *   up-to-date toast, not four covering half a phone screen.
+   */
+  showToast(messageHtml, options = {}) {
     let container = document.getElementById("toastContainer");
     if (!container) {
       container = document.createElement("div");
@@ -15,8 +22,13 @@ const UIInteractions = {
       document.body.appendChild(container);
     }
 
+    if (options.key) {
+      container.querySelector(`[data-toast-key="${options.key}"]`)?.remove();
+    }
+
     const toast = document.createElement("div");
     toast.className = "rf-toast";
+    if (options.key) toast.dataset.toastKey = options.key;
     toast.innerHTML = `
       <div style="color: var(--rf-gold-600); font-size: 1.1rem;">✦</div>
       <div>${messageHtml}</div>
