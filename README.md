@@ -85,16 +85,27 @@ will host it. `render.yaml` and a `Dockerfile` are included.
 
 ### Render (free, gives you a subdomain)
 
-1. Go to **[dashboard.render.com](https://dashboard.render.com)** → **New** →
-   **Blueprint**, and point it at this repository. It reads `render.yaml`.
-2. Set these environment variables when prompted:
-   - `ADMIN_PASSWORD` — **required.** The server refuses to boot in production
-     without it, because the default is published in this README.
-   - `UPI_VPA` — your real UPI ID. Every payment QR pays this address.
-3. Deploy. You get **`https://rejifash.onrender.com`**.
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/akthernaimudheen/rejifash)
 
-Change `name:` in `render.yaml` to claim a different subdomain — it has to be
-unique across Render.
+Or by hand:
+
+1. **[dashboard.render.com](https://dashboard.render.com)** → **New** →
+   **Blueprint** → pick this repository. It reads `render.yaml`.
+2. Render will prompt for two values:
+
+   | Variable | Value |
+   |---|---|
+   | `ADMIN_PASSWORD` | Any password you choose. **Required** — the server refuses to boot in production without it, since the default is published right here in this README. |
+   | `UPI_VPA` | Your real UPI ID, e.g. `yourname@okicici`. Every payment QR pays this address. Leave blank to deploy now and set it later in the Render dashboard; the storefront will show a clear "UPI not configured" message instead of a broken QR. |
+
+3. **Apply**. First build takes a minute or two — there is nothing to install.
+
+You get **`https://rejifash.onrender.com`**. Change `name:` in `render.yaml` to
+claim a different subdomain; it has to be unique across all of Render.
+
+Afterwards, sign in at `/admin` with username `admin` and the password you set,
+then go to **Settings** and send yourself a test WhatsApp message to confirm
+alerts are reaching you.
 
 ### Two things about the free tier
 

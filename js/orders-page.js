@@ -154,9 +154,17 @@ const OrdersPage = {
           <p>Your order is reserved but not yet paid. Scan below — the amount and reference are pre-filled.</p>
           ${
             error
-              ? `<div class="rf-track-error">UPI is not configured on this store yet (${this.esc(
-                  error
-                )}). Please message us on WhatsApp to pay.</div>`
+              ? `<div class="rf-track-error">
+                   <strong>Online payment isn't available right now</strong>
+                   <p>Message us on WhatsApp and we'll share payment details for this order.</p>
+                   <a class="btn btn-wine btn-sm" target="_blank" rel="noopener"
+                      href="${RejiAPI.waLink(
+                        cfg.merchant.whatsappNumber,
+                        `Hi Reji Fashions, I'd like to pay for order ${order.id} (${AppState.formatPrice(
+                          order.pricing.total
+                        )}).`
+                      )}">💬 Ask for payment details</a>
+                 </div>`
               : `<div class="rf-track-pay-grid">
                    <div class="rf-upi-qr">${qr}</div>
                    <div>

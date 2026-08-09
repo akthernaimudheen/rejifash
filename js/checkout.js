@@ -471,13 +471,21 @@ const CheckoutEngine = {
     }
 
     if (vpaError) {
+      // Never surface the raw validation error — the shopper did nothing wrong
+      // and "" is not a valid UPI ID means nothing to them.
+      console.warn("[checkout] UPI unavailable:", vpaError);
       return `
         <div class="rf-upi-error">
-          <h4>⚠️ UPI is not configured yet</h4>
-          <p>${Media.escapeHtml(vpaError)}</p>
-          <p>Your order <strong>${this.order.id}</strong> is saved. Please contact us on WhatsApp to pay.</p>
+          <h4>Online payment isn't available right now</h4>
+          <p>
+            Good news — your order <strong>${this.order.id}</strong> is saved and we've been notified.
+            Send it to us on WhatsApp and we'll share payment details straight away.
+          </p>
           <a class="btn btn-wine" target="_blank" rel="noopener"
-             href="${this.whatsapp?.customerLink || "#"}">Send order on WhatsApp</a>
+             href="${this.whatsapp?.customerLink || "#"}">💬 Send order on WhatsApp</a>
+          <button class="rf-text-link" onclick="CheckoutEngine.skipToConfirmation()">
+            Show my order details
+          </button>
         </div>`;
     }
 

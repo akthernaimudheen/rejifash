@@ -165,11 +165,18 @@ function update(patch) {
 /** The subset of config that is safe to hand to the browser. */
 function publicConfig() {
   const c = load();
+
+  // In production, refuse to hand out the shipped placeholder UPI ID. It is a
+  // guess at the owner's address, and a QR pointing at the wrong VPA sends real
+  // customer money somewhere unrecoverable. Blanking it makes the checkout show
+  // its "UPI is not configured" panel with a WhatsApp fallback instead.
+  const vpaIsPlaceholder = process.env.NODE_ENV === "production" && usingPlaceholderVpa();
+
   return {
     merchant: {
       name: c.merchant.name,
       gstin: c.merchant.gstin,
-      upiVpa: c.merchant.upiVpa,
+      upiVpa: vpaIsPlaceholder ? "" : c.merchant.upiVpa,
       upiPayeeName: c.merchant.upiPayeeName,
       whatsappNumber: c.merchant.whatsappNumber,
       supportPhone: c.merchant.supportPhone,
