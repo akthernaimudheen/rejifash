@@ -134,34 +134,51 @@ function serveStatic(req, res, pathname) {
     return notFound(res);
   }
 
-  let filePath;
+  // Product photographs can legitimately live in two places at once, and both
+  // must be served:
+  //
+  //   UPLOADS_DIR  images uploaded at runtime. Follows DATA_DIR onto a mounted
+  //                disk when one is configured.
+  //   the repo     images committed alongside catalog.json, which is how a host
+  //                with no persistent disk keeps a catalog at all.
+  //
+  // Serving only the first meant that setting DATA_DIR silently made every
+  // committed photograph unreachable.
+  let candidates;
   if (segments.length === 1) {
     if (!PUBLIC_PAGES.has(segments[0])) return notFound(res);
-    filePath = path.join(ROOT, segments[0]);
+    candidates = [path.join(ROOT, segments[0])];
   } else if (PUBLIC_DIRS.has(segments[0])) {
-    // Uploaded photographs keep their /assets/products/ URL but may physically
-    // live on a mounted disk outside the project.
     if (segments[0] === "assets" && segments[1] === "products") {
-      filePath = path.join(store.UPLOADS_DIR, segments.slice(2).join(path.sep));
-      if (!path.resolve(filePath).startsWith(path.resolve(store.UPLOADS_DIR))) return notFound(res);
+      const name = segments.slice(2).join(path.sep);
+      candidates = [path.join(store.UPLOADS_DIR, name), path.join(ROOT, "assets", "products", name)];
     } else {
-      filePath = path.join(ROOT, ...segments);
-      if (!path.resolve(filePath).startsWith(path.resolve(ROOT))) return notFound(res);
+      candidates = [path.join(ROOT, ...segments)];
     }
   } else {
     return notFound(res);
   }
 
-  fs.readFile(filePath, (err, buf) => {
-    if (err) return notFound(res);
-    const ext = path.extname(filePath).toLowerCase();
-    res.writeHead(200, {
-      "Content-Type": MIME[ext] || "application/octet-stream",
-      "Cache-Control": segments[0] === "assets" ? "public, max-age=86400" : "no-cache",
-      "X-Content-Type-Options": "nosniff"
+  // Keep every candidate inside its own root — no traversal out of either.
+  const roots = [path.resolve(store.UPLOADS_DIR), path.resolve(ROOT)];
+  candidates = candidates.filter(p => roots.some(r => path.resolve(p).startsWith(r)));
+  if (!candidates.length) return notFound(res);
+
+  const tryNext = index => {
+    if (index >= candidates.length) return notFound(res);
+    const filePath = candidates[index];
+    fs.readFile(filePath, (err, buf) => {
+      if (err) return tryNext(index + 1);
+      const ext = path.extname(filePath).toLowerCase();
+      res.writeHead(200, {
+        "Content-Type": MIME[ext] || "application/octet-stream",
+        "Cache-Control": segments[0] === "assets" ? "public, max-age=86400" : "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      });
+      res.end(buf);
     });
-    res.end(buf);
-  });
+  };
+  tryNext(0);
 }
 
 /* -------------------------------------------------------------- pricing --- */
