@@ -507,6 +507,135 @@
 .studio .rf-bot-quick-chips { background: var(--ink-2); border-top: 1px solid var(--line); }
 .studio .rf-chip-btn { background: var(--ink); color: var(--muted); border-color: var(--line); }
 
+/* ============================================================
+   The real storefront, skinned.
+   These components are the same markup index.html uses, so the
+   catalog, filters, search, wishlist and reviews all behave
+   identically — only the surface changes.
+   ============================================================ */
+
+/* header + announcement */
+.studio .rf-announcement {
+  background: var(--ink-2);
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: var(--step--1);
+}
+.studio .rf-announcement-code { background: var(--accent); color: var(--ink); border: none; }
+.studio .rf-header {
+  background: rgba(8, 8, 10, 0.78);
+  backdrop-filter: blur(14px) saturate(160%);
+  border-bottom: 1px solid var(--line);
+  box-shadow: none;
+}
+.studio .brand-monogram { background: var(--ink-2); border: 1px solid var(--line); color: var(--accent); }
+.studio .brand-title { color: var(--paper); }
+.studio .brand-title span { color: var(--accent); }
+.studio .brand-tagline { color: var(--muted); }
+.studio .rf-nav-link { color: var(--muted); }
+.studio .rf-nav-link:hover { color: var(--paper); }
+.studio .rf-search-box .rf-search-input,
+.studio .rf-currency-select {
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  color: var(--paper);
+}
+.studio .rf-search-input::placeholder { color: var(--muted); }
+.studio .rf-icon-btn { background: var(--ink-2); border: 1px solid var(--line); color: var(--paper); }
+.studio .rf-icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+.studio .rf-badge-counter { background: var(--accent); color: var(--ink); }
+.studio .rf-search-dropdown { background: var(--ink-2); border: 1px solid var(--line); }
+.studio .rf-search-item:hover { background: var(--ink); }
+.studio .rf-search-name { color: var(--paper); }
+.studio .rf-search-meta, .studio .rf-search-empty { color: var(--muted); }
+
+/* section framing */
+.studio .st-section-head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 2rem; flex-wrap: wrap; margin-bottom: clamp(1.5rem, 4vw, 3rem);
+}
+.studio .section-header { display: none; } /* studio pages use st-section-head */
+.studio .rf-catalog-section,
+.studio .rf-lookbook-section,
+.studio .rf-testimonial-section,
+.studio .rf-values-strip {
+  background: var(--ink);
+  border-top: 1px solid var(--line);
+  padding-block: clamp(3.5rem, 9vw, 7rem);
+}
+
+/* filters */
+.studio .rf-cat-tab {
+  background: none; border: 1px solid var(--line); color: var(--muted);
+  border-radius: 100px; letter-spacing: 0.1em; text-transform: uppercase;
+  font-size: var(--step--1);
+}
+.studio .rf-cat-tab:hover { color: var(--paper); border-color: var(--paper); }
+.studio .rf-cat-tab.active { background: var(--accent); border-color: var(--accent); color: var(--ink); }
+.studio .rf-filter-bar { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.studio .rf-filter-label { color: var(--muted); }
+.studio .rf-filter-select {
+  background: var(--ink-2); border: 1px solid var(--line); color: var(--paper);
+}
+.studio .rf-price-val { color: var(--accent); }
+.studio .rf-price-slider { accent-color: var(--accent); }
+.studio .rf-result-count { color: var(--muted); font-size: var(--step--1); letter-spacing: 0.14em; text-transform: uppercase; }
+
+/* product cards */
+.studio .rf-product-card {
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+}
+.studio .rf-product-card:hover { border-color: rgba(212, 175, 55, 0.45); }
+.studio .rf-media, .studio .rf-media-thumb { background: #101014; }
+.studio .rf-card-category { color: var(--accent); letter-spacing: 0.14em; }
+.studio .rf-card-title a { color: var(--paper); }
+.studio .rf-card-title a:hover { color: var(--accent); }
+.studio .rf-card-fabric, .studio .rf-review-count { color: var(--muted); }
+.studio .rf-card-rating { color: var(--paper); }
+.studio .rf-current-price { color: var(--paper); }
+.studio .rf-original-price { color: var(--muted); }
+.studio .rf-discount-tag { color: var(--accent); background: none; }
+.studio .rf-size-chip {
+  background: none; border: 1px solid var(--line); color: var(--muted);
+}
+.studio .rf-size-chip:hover { border-color: var(--paper); color: var(--paper); }
+.studio .rf-size-chip.selected { background: var(--paper); border-color: var(--paper); color: var(--ink); }
+.studio .rf-add-bag-btn {
+  background: none; border: 1px solid var(--line); color: var(--paper);
+  border-radius: 100px; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.studio .rf-add-bag-btn:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
+.studio .rf-wishlist-btn { background: rgba(8,8,10,0.6); border-color: var(--line); color: var(--paper); }
+.studio .rf-quickview-btn { background: rgba(8,8,10,0.75); border: 1px solid var(--line); color: var(--paper); }
+.studio .rf-badge-gold { background: var(--accent); color: var(--ink); border: none; }
+.studio .rf-badge-wine, .studio .rf-badge-emerald { background: var(--ink); color: var(--accent); border: 1px solid var(--line); }
+.studio .rf-badge-alert { background: #2A1113; color: #FCA5A5; border-color: #4A1D1F; }
+.studio .rf-empty-state h3 { color: var(--paper); }
+.studio .rf-empty-state p { color: var(--muted); }
+
+/* lookbook + reviews */
+.studio .rf-lookbook-card { background: var(--ink-2); border: 1px solid var(--line); border-radius: 2px; }
+.studio .rf-lookbook-content h3 { color: var(--paper); }
+.studio .rf-lookbook-subtitle { color: var(--accent); }
+.studio .rf-lookbook-notes, .studio .rf-lookbook-items a { color: var(--muted); }
+.studio .rf-lookbook-items { border-color: var(--line); }
+.studio .rf-review-card { background: var(--ink-2); border: 1px solid var(--line); border-radius: 2px; box-shadow: none; }
+.studio .rf-review-person h5 { color: var(--paper); }
+.studio .rf-review-text { color: var(--muted); }
+.studio .rf-review-product { color: var(--accent); border-color: var(--line); }
+.studio .rf-val-card { background: var(--ink-2); border: 1px solid var(--line); border-radius: 2px; }
+.studio .rf-val-info h5 { color: var(--paper); }
+.studio .rf-val-info p { color: var(--muted); }
+
+/* footer */
+.studio .rf-footer { background: var(--ink-2); border-top: 1px solid var(--line); }
+
+/* buttons used inside shared modals */
+.studio .btn-outline { border-color: var(--line); color: var(--paper); }
+.studio .btn-outline:hover { border-color: var(--accent); color: var(--accent); background: none; }
+
 /* -------------------------------------------------------- responsive --- */
 
 @media (max-width: 900px) {

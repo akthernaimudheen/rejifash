@@ -1,49 +1,34 @@
 /**
  * Reji Fashions — Studio storefront.
  *
- * The futuristic-minimal alternative to index.html. Same catalog, same cart,
- * same checkout; a completely different surface.
+ * A different skin, not a different shop. The catalog grid, category tabs,
+ * fabric/occasion/price filters, sort, search, wishlist, currency, quick view,
+ * size selection, lookbooks and reviews are all the same code that runs
+ * index.html — AppState.init() drives them here exactly as it does there.
  *
- * Two rules held throughout:
+ * An earlier version of this page hand-rolled a six-item rail and quietly
+ * dropped every one of those. Restyle the storefront; never rebuild it with
+ * less.
  *
- *   Never hijack the scroll. The hero is scrubbed by reading a sticky
- *   section's own position, so momentum, keyboard paging and the scrollbar all
- *   behave exactly as the browser intends. No wheel handlers, no fake inertia.
- *
- *   Fail visible. Every reveal begins hidden, so any of them failing to fire
- *   would leave a blank page. All of it opens after a timeout regardless.
+ * What lives here is only what is unique to this surface: the scrubbed hero,
+ * the marquee, the cursor and the section reveals.
  */
 
 const Studio = {
-  products: [],
-
   async init() {
     await RejiAPI.init();
     SiteChrome.mount();
 
-    const { products, coupons } = await RejiAPI.getProducts();
-    AppState.products = products;
-    AppState.coupons = coupons;
-    AppState.loadPersistedState();
+    // The whole storefront, wired identically to the classic page.
+    await AppState.init();
 
-    // Only photographed pieces belong on a page this bare — generated artwork
-    // would be obvious against full-bleed photography.
-    this.products = products.filter(p => Media.hasPhotos(p));
-
-    this.renderHero();
+    this.renderHeroFigure();
     this.renderTicker();
-    this.renderRail();
-    this.renderMade();
-    this.bindNav();
+    this.renderMadeFigure();
+
     this.bindCursor();
     this.bindHeroScrub();
     this.bindReveals();
-    this.syncBag();
-
-    document.getElementById("stWhatsapp").href = RejiAPI.waLink(
-      RejiAPI.config.merchant.whatsappNumber,
-      "Hi Reji Fashions, I have a question about a churidar set."
-    );
 
     requestAnimationFrame(() => document.body.classList.add("is-ready"));
   },
@@ -52,26 +37,32 @@ const Studio = {
     return Media.escapeHtml(t);
   },
 
+  photographed() {
+    return AppState.products.filter(p => Media.hasPhotos(p));
+  },
+
   /* ---------------------------------------------------------------- hero --- */
 
-  renderHero() {
-    const p = this.products[0];
+  renderHeroFigure() {
     const figure = document.getElementById("stHeroFigure");
-    if (!p || !figure) return;
+    const p = this.photographed()[0];
+    if (!figure || !p) return;
     const shot = Media.gallery(p)[0];
 
     figure.innerHTML = `
-      <img src="${this.esc(shot.zoomSrc || shot.src)}" alt="${this.esc(shot.alt || p.name)}"
-           fetchpriority="high" decoding="async">
-      <figcaption>
-        <b>${this.esc(p.name)}</b>
-        <span>${AppState.formatPrice(p.price)}</span>
-      </figcaption>`;
+      <a href="product.html?id=${encodeURIComponent(p.id)}" aria-label="${this.esc(p.name)}">
+        <img src="${this.esc(shot.zoomSrc || shot.src)}" alt="${this.esc(shot.alt || p.name)}"
+             fetchpriority="high" decoding="async">
+        <figcaption>
+          <b>${this.esc(p.name)}</b>
+          <span>${AppState.formatPrice(p.price)}</span>
+        </figcaption>
+      </a>`;
   },
 
   /**
-   * Scrub the hero from the sticky section's own geometry.
-   * Read-only on scroll — nothing here changes scroll behaviour.
+   * Scrub the hero from the sticky section's own geometry. Read-only, on a
+   * passive listener — native scrolling is never intercepted.
    */
   bindHeroScrub() {
     const section = document.getElementById("stHero");
@@ -91,13 +82,9 @@ const Studio = {
       figure.style.setProperty("--hero-y", `${(-progress * 60).toFixed(1)}px`);
     };
 
-    addEventListener(
-      "scroll",
-      () => {
-        if (!frame) frame = requestAnimationFrame(update);
-      },
-      { passive: true }
-    );
+    addEventListener("scroll", () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    }, { passive: true });
     addEventListener("resize", update, { passive: true });
     update();
   },
@@ -107,96 +94,23 @@ const Studio = {
   renderTicker() {
     const track = document.getElementById("stTicker");
     if (!track) return;
-    const words = this.products.map(p => p.color || p.name);
-    // Duplicated once so the -50% marquee loop is seamless.
+    const words = this.photographed().map(p => p.color || p.name);
+    if (!words.length) return;
     const run = [...words, "made to measure", ...words, "made to measure"];
     track.innerHTML = run.map(w => `<span>${this.esc(w)}<i> — </i></span>`).join("");
   },
 
-  /* ---------------------------------------------------------------- rail --- */
-
-  renderRail() {
-    const rail = document.getElementById("stRail");
-    if (!rail) return;
-
-    rail.innerHTML = this.products
-      .map((p, i) => {
-        const shot = Media.gallery(p)[0];
-        return `
-        <a class="st-card" href="product.html?id=${encodeURIComponent(p.id)}">
-          <div class="st-card-media">
-            <img src="${this.esc(shot.src)}" alt="${this.esc(shot.alt || p.name)}"
-                 loading="${i < 2 ? "eager" : "lazy"}" decoding="async">
-            <span class="st-card-index">${String(i + 1).padStart(2, "0")}</span>
-            <button class="st-card-add" data-add="${this.esc(p.id)}"
-                    aria-label="Add ${this.esc(p.name)} to bag">+</button>
-          </div>
-          <div class="st-card-foot">
-            <span class="st-card-name">${this.esc(p.name)}</span>
-            <span class="st-card-price">${AppState.formatPrice(p.price)}</span>
-          </div>
-          <div class="st-card-meta">${this.esc(p.subCategory || "Churidar set")}</div>
-        </a>`;
-      })
-      .join("");
-
-    // Add-to-bag lives inside the card link, so stop it navigating.
-    rail.addEventListener("click", e => {
-      const btn = e.target.closest("[data-add]");
-      if (!btn) return;
-      e.preventDefault();
-      e.stopPropagation();
-      AppState.addToCart(btn.dataset.add, "M");
-      this.syncBag();
-    });
-
-    this.bindRailNav(rail);
-  },
-
-  bindRailNav(rail) {
-    const prev = document.getElementById("stRailPrev");
-    const next = document.getElementById("stRailNext");
-    if (!prev || !next) return;
-
-    const step = () => rail.querySelector(".st-card")?.getBoundingClientRect().width + 16 || 320;
-    prev.addEventListener("click", () => rail.scrollBy({ left: -step(), behavior: "smooth" }));
-    next.addEventListener("click", () => rail.scrollBy({ left: step(), behavior: "smooth" }));
-
-    const sync = () => {
-      const max = rail.scrollWidth - rail.clientWidth - 2;
-      prev.disabled = rail.scrollLeft <= 2;
-      next.disabled = rail.scrollLeft >= max;
-    };
-    rail.addEventListener("scroll", sync, { passive: true });
-    addEventListener("resize", sync, { passive: true });
-    sync();
-  },
-
-  /* ---------------------------------------------------------------- made --- */
-
-  renderMade() {
+  renderMadeFigure() {
     const mount = document.getElementById("stMadeFigure");
-    const p = this.products[2] || this.products[1] || this.products[0];
+    const list = this.photographed();
+    const p = list[2] || list[1] || list[0];
     if (!mount || !p) return;
     const shot = Media.gallery(p)[0];
     mount.outerHTML = `<img src="${this.esc(shot.zoomSrc || shot.src)}"
                             alt="${this.esc(shot.alt || p.name)}" loading="lazy" decoding="async">`;
   },
 
-  /* ----------------------------------------------------------------- ui --- */
-
-  bindNav() {
-    const nav = document.getElementById("stNav");
-    if (!nav) return;
-    const onScroll = () => nav.classList.toggle("is-stuck", window.scrollY > 40);
-    addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-  },
-
-  syncBag() {
-    const el = document.getElementById("stBagCount");
-    if (el) el.textContent = AppState.cart.reduce((s, i) => s + i.quantity, 0);
-  },
+  /* ------------------------------------------------------------- cursor --- */
 
   bindCursor() {
     const cursor = document.querySelector(".st-cursor");
@@ -211,17 +125,13 @@ const Studio = {
     let rx = mx;
     let ry = my;
 
-    addEventListener(
-      "pointermove",
-      e => {
-        mx = e.clientX;
-        my = e.clientY;
-        dot.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
-      },
-      { passive: true }
-    );
+    addEventListener("pointermove", e => {
+      mx = e.clientX;
+      my = e.clientY;
+      dot.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
+    }, { passive: true });
 
-    // The ring lags the dot — the delay is what makes it read as a cursor
+    // The ring lags the dot; the delay is what makes it read as a cursor
     // rather than a decal stuck to the pointer.
     const loop = () => {
       rx += (mx - rx) * 0.14;
@@ -231,7 +141,7 @@ const Studio = {
     };
     loop();
 
-    const hot = "a, button, input, select, textarea, [role='button']";
+    const hot = "a, button, input, select, textarea, [role='button'], .rf-product-card";
     document.addEventListener("pointerover", e => {
       if (e.target.closest(hot)) cursor.classList.add("is-hot");
     });
@@ -240,40 +150,36 @@ const Studio = {
     });
   },
 
+  /* ------------------------------------------------------------ reveals --- */
+
   bindReveals() {
     const nodes = document.querySelectorAll(
-      ".st-section-head, .st-rail, .st-made-media, .st-made-copy, .st-steps li, .st-foot-row"
+      ".st-section-head, .st-made-media, .st-made-copy, .st-steps li, .rf-val-card"
     );
     if (!nodes.length) return;
 
     const show = n => n.classList.add("is-in");
 
-    if (
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
-      !("IntersectionObserver" in window)
-    ) {
-      nodes.forEach(n => show(n));
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+      nodes.forEach(show);
       return;
     }
 
     nodes.forEach(n => n.classList.add("st-reveal"));
-    const io = new IntersectionObserver(
-      (entries, obs) => {
-        entries.forEach((entry, i) => {
-          if (!entry.isIntersecting) return;
-          entry.target.style.transitionDelay = `${Math.min(i, 4) * 70}ms`;
-          show(entry.target);
-          obs.unobserve(entry.target);
-        });
-      },
-      // threshold 0: a full-height section can never satisfy a fractional one
-      // on a short viewport, and content hidden behind it would never appear.
-      { threshold: 0, rootMargin: "0px 0px -6% 0px" }
-    );
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach((entry, i) => {
+        if (!entry.isIntersecting) return;
+        entry.target.style.transitionDelay = `${Math.min(i, 4) * 70}ms`;
+        show(entry.target);
+        obs.unobserve(entry.target);
+      });
+    }, { threshold: 0, rootMargin: "0px 0px -6% 0px" });
+
     nodes.forEach(n => io.observe(n));
 
-    // Fail visible, whatever happens above.
-    setTimeout(() => nodes.forEach(n => show(n)), 3000);
+    // Fail visible: content hidden behind an animation that never fires is a
+    // blank page. This has bitten this project once already.
+    setTimeout(() => nodes.forEach(show), 3000);
   }
 };
 
