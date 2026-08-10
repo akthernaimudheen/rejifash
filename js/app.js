@@ -198,37 +198,200 @@ const AppState = {
     );
   },
 
+  /* ----------------------------------------------------------- hero --- */
+
+  heroIndex: 0,
+  heroTimer: null,
+  heroSlides: [],
+
+  /**
+   * The hero is a carousel of every photographed design.
+   *
+   * Motion is deliberately Premium rather than bouncy: a 500ms crossfade with
+   * the incoming photograph settling from 1.03 to 1.0 on a decelerating curve,
+   * and the caption following 120ms behind so the two do not arrive together.
+   * No overshoot — spring physics would read as cheap against silk.
+   */
   renderHero() {
     const mount = document.getElementById("heroVisual");
     if (!mount) return;
 
-    const product = this.heroProduct();
-    if (!product) return; // no photography yet — keep the illustration
+    const pinned = RejiAPI.config.store?.heroProductId;
+    let slides = this.products.filter(p => Media.hasPhotos(p));
+    if (!slides.length) return; // no photography yet — keep the illustration
 
-    const shot = Media.gallery(product)[0];
-    const href = `product.html?id=${encodeURIComponent(product.id)}`;
+    // A pinned design leads; the rest follow by rating.
+    slides = [
+      ...slides.filter(p => p.id === pinned),
+      ...slides.filter(p => p.id !== pinned).sort((a, b) => b.rating - a.rating)
+    ];
+
+    this.heroSlides = slides;
+    this.heroIndex = 0;
 
     mount.innerHTML = `
-      <a class="rf-hero-card rf-hero-card--photo" href="${href}"
-         aria-label="${Media.escapeHtml(product.name)}">
-        <div class="rf-hero-image-wrap">
-          <span class="rf-badge rf-badge-gold rf-hero-card-badge">
-            ${Media.escapeHtml(product.badge || "Featured")}
-          </span>
-          <img class="rf-hero-photo"
-               src="${Media.escapeHtml(shot.zoomSrc || shot.src)}"
-               alt="${Media.escapeHtml(shot.alt || product.name)}"
-               fetchpriority="high" decoding="async">
-          <div class="rf-hero-float-tag">
-            <h5>${Media.escapeHtml(product.name)}</h5>
-            <p>${Media.escapeHtml(product.tagline || product.fabric)}</p>
-            <span class="rf-hero-float-price">
-              ${this.formatPrice(product.price)}
-              <em>${Media.escapeHtml(product.discount || "")}</em>
-            </span>
-          </div>
+      <div class="rf-hero-carousel" id="heroCarousel"
+           role="region" aria-roledescription="carousel" aria-label="Featured designs">
+        <div class="rf-hero-viewport">
+          ${slides
+            .map((product, i) => {
+              const shot = Media.gallery(product)[0];
+              return `
+            <a class="rf-hero-slide ${i === 0 ? "active" : ""}"
+               href="product.html?id=${encodeURIComponent(product.id)}"
+               role="group" aria-roledescription="slide"
+               aria-label="${i + 1} of ${slides.length}: ${Media.escapeHtml(product.name)}"
+               ${i === 0 ? "" : 'tabindex="-1" aria-hidden="true"'}>
+              <span class="rf-badge rf-badge-gold rf-hero-card-badge">
+                ${Media.escapeHtml(product.badge || "Featured")}
+              </span>
+              <img class="rf-hero-photo"
+                   src="${Media.escapeHtml(shot.zoomSrc || shot.src)}"
+                   alt="${Media.escapeHtml(shot.alt || product.name)}"
+                   ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">
+              <div class="rf-hero-float-tag">
+                <h5>${Media.escapeHtml(product.name)}</h5>
+                <p>${Media.escapeHtml(product.tagline || product.fabric)}</p>
+                <span class="rf-hero-float-price">
+                  ${this.formatPrice(product.price)}
+                  <em>${Media.escapeHtml(product.discount || "")}</em>
+                </span>
+              </div>
+            </a>`;
+            })
+            .join("")}
         </div>
-      </a>`;
+
+        ${
+          slides.length > 1
+            ? `<button class="rf-hero-arrow rf-hero-arrow--prev" aria-label="Previous design"
+                       onclick="AppState.heroStep(-1, true)">
+                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                   <polyline points="15 18 9 12 15 6"></polyline>
+                 </svg>
+               </button>
+               <button class="rf-hero-arrow rf-hero-arrow--next" aria-label="Next design"
+                       onclick="AppState.heroStep(1, true)">
+                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                   <polyline points="9 18 15 12 9 6"></polyline>
+                 </svg>
+               </button>
+               <div class="rf-hero-dots" role="tablist" aria-label="Choose design">
+                 ${slides
+                   .map(
+                     (p, i) => `
+                   <button class="rf-hero-dot ${i === 0 ? "active" : ""}" role="tab"
+                           aria-label="${Media.escapeHtml(p.name)}"
+                           aria-selected="${i === 0}"
+                           onclick="AppState.heroGoTo(${i}, true)"></button>`
+                   )
+                   .join("")}
+               </div>`
+            : ""
+        }
+      </div>`;
+
+    if (slides.length > 1) this.bindHeroCarousel();
+  },
+
+  bindHeroCarousel() {
+    const carousel = document.getElementById("heroCarousel");
+    if (!carousel) return;
+
+    // Someone reading the slide should not have it yanked away.
+    carousel.addEventListener("mouseenter", () => this.heroPause());
+    carousel.addEventListener("mouseleave", () => this.heroPlay());
+    carousel.addEventListener("focusin", () => this.heroPause());
+    carousel.addEventListener("focusout", () => this.heroPlay());
+
+    carousel.addEventListener("keydown", e => {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        this.heroStep(-1, true);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        this.heroStep(1, true);
+      }
+    });
+
+    // Swipe. Only act on a decisively horizontal drag, so a vertical scroll
+    // through the page never flicks the carousel by accident.
+    let startX = 0;
+    let startY = 0;
+    carousel.addEventListener(
+      "touchstart",
+      e => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        this.heroPause();
+      },
+      { passive: true }
+    );
+    carousel.addEventListener(
+      "touchend",
+      e => {
+        const dx = e.changedTouches[0].clientX - startX;
+        const dy = e.changedTouches[0].clientY - startY;
+        if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.5) this.heroStep(dx < 0 ? 1 : -1, true);
+        this.heroPlay();
+      },
+      { passive: true }
+    );
+
+    // Pause while the tab is hidden — no point animating into the void.
+    document.addEventListener("visibilitychange", () =>
+      document.hidden ? this.heroPause() : this.heroPlay()
+    );
+
+    this.heroPlay();
+  },
+
+  heroGoTo(index, userInitiated = false) {
+    const slides = [...document.querySelectorAll(".rf-hero-slide")];
+    const dots = [...document.querySelectorAll(".rf-hero-dot")];
+    if (!slides.length) return;
+
+    const next = (index + slides.length) % slides.length;
+    if (next === this.heroIndex && !userInitiated) return;
+
+    slides.forEach((slide, i) => {
+      const isActive = i === next;
+      slide.classList.toggle("active", isActive);
+      slide.setAttribute("aria-hidden", String(!isActive));
+      if (isActive) slide.removeAttribute("tabindex");
+      else slide.setAttribute("tabindex", "-1");
+    });
+
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("active", i === next);
+      dot.setAttribute("aria-selected", String(i === next));
+    });
+
+    this.heroIndex = next;
+    // A manual step restarts the clock, so the slide you asked for gets its
+    // full dwell rather than whatever was left of the previous one.
+    if (userInitiated) this.heroPlay();
+  },
+
+  heroStep(delta, userInitiated = false) {
+    this.heroGoTo(this.heroIndex + delta, userInitiated);
+  },
+
+  heroPlay() {
+    this.heroPause();
+    if (this.heroSlides.length < 2) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (document.hidden) return;
+    this.heroTimer = setInterval(() => this.heroStep(1), 5000);
+  },
+
+  heroPause() {
+    if (this.heroTimer) {
+      clearInterval(this.heroTimer);
+      this.heroTimer = null;
+    }
   },
 
   renderProducts() {
