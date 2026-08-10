@@ -3,7 +3,13 @@
    Luxury Ethnic Wear: Artisanal Churidars, Kurtis & Festive Ensembles
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+/* Instrument Serif — a contemporary editorial serif. Playfair reads as 2015
+   wedding-invitation; this has the same elegance with a modern axis.
+   Inter — neutral and unusually legible at small sizes, which matters for
+   prices, sizes and form labels.
+   Space Mono — for eyebrows, tags and numerals. A little machined typography
+   is what separates "expensive minimal" from "empty". */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 
 :root {
   /* Brand Theme Colors */
@@ -62,9 +68,10 @@
   --rf-radius-full: 9999px;
 
   /* Typography */
-  --font-serif: 'Playfair Display', Georgia, serif;
-  --font-editorial: 'Cormorant Garamond', Georgia, serif;
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: 'Instrument Serif', 'Times New Roman', Georgia, serif;
+  --font-editorial: 'Instrument Serif', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   /* Transitions */
   --transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
@@ -196,13 +203,13 @@ img, svg {
 }
 
 .section-subtitle {
-  font-family: var(--font-sans);
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
   color: var(--rf-gold-600);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
   display: block;
 }
 
@@ -219,7 +226,7 @@ img, svg {
   font-family: var(--font-editorial);
   font-style: italic;
   color: var(--rf-wine-700);
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .section-desc {

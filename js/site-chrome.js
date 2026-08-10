@@ -13,12 +13,12 @@ const SiteChrome = {
     return `
       <div class="rf-announcement">
         <div class="rf-announcement-text">
-          <span>✨ Festive Season Gala: Flat 20% off with code</span>
+          <span><i class=ico-sparkle></i> Festive Season Gala: Flat 20% off with code</span>
           <span class="rf-announcement-code">REJI20</span>
           <span>• Free express delivery across India on orders above ₹1,999</span>
         </div>
         <div class="rf-announcement-timer">
-          <span>⏳ Ends in:</span>
+          <span><i class=ico-clock></i> Ends in:</span>
           <strong id="saleCountdown">--:--:--</strong>
         </div>
       </div>
@@ -65,7 +65,7 @@ const SiteChrome = {
                 <option value="EUR">🇪🇺 EUR</option>
               </select>
 
-              <button class="rf-icon-btn" onclick="AppState.toggleTheme()" title="Toggle theme" aria-label="Toggle theme">🌓</button>
+              <button class="rf-icon-btn" onclick="AppState.toggleTheme()" title="Toggle theme" aria-label="Toggle theme"><i class=ico-moon></i></button>
 
               <button class="rf-icon-btn" onclick="AppState.toggleWishlistView()" title="Wishlist" aria-label="Wishlist">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -94,7 +94,7 @@ const SiteChrome = {
       <div class="rf-drawer-overlay" id="cartDrawerOverlay" onclick="if(event.target===this) AppState.closeCartDrawer()">
         <aside class="rf-cart-drawer">
           <div class="rf-drawer-header">
-            <h3 class="rf-drawer-title"><span>🛍️</span> Your shopping bag</h3>
+            <h3 class="rf-drawer-title"><span><i class=ico-bag></i></span> Your shopping bag</h3>
             <button class="rf-close-btn" onclick="AppState.closeCartDrawer()" aria-label="Close">✕</button>
           </div>
 
@@ -154,7 +154,7 @@ const SiteChrome = {
 
       <!-- Concierge -->
       <button class="rf-bot-trigger" onclick="UIInteractions.toggleBot()" title="Chat with our stylist">
-        <span>✨</span> Stylist &amp; order help
+        <span><i class=ico-sparkle></i></span> Stylist &amp; order help
       </button>
 
       <div class="rf-bot-window" id="botWindow">
@@ -169,10 +169,10 @@ const SiteChrome = {
           <div class="rf-bot-msg bot">Namaste! How can I help — custom sizing, fabric care, payment or an order update?</div>
         </div>
         <div class="rf-bot-quick-chips">
-          <button class="rf-chip-btn" onclick="UIInteractions.askBot('How do I track my order?')">📦 Track order</button>
-          <button class="rf-chip-btn" onclick="UIInteractions.askBot('How do I pay by UPI?')">⚡ UPI payment</button>
-          <button class="rf-chip-btn" onclick="UIInteractions.askBot('Tell me about custom stitching')">✂️ Custom sizing</button>
-          <button class="rf-chip-btn" onclick="UIInteractions.askBot('What is your return policy?')">🔄 Returns</button>
+          <button class="rf-chip-btn" onclick="UIInteractions.askBot('How do I track my order?')"><i class=ico-package></i> Track order</button>
+          <button class="rf-chip-btn" onclick="UIInteractions.askBot('How do I pay by UPI?')"><i class=ico-bolt></i> UPI payment</button>
+          <button class="rf-chip-btn" onclick="UIInteractions.askBot('Tell me about custom stitching')"><i class=ico-scissors></i> Custom sizing</button>
+          <button class="rf-chip-btn" onclick="UIInteractions.askBot('What is your return policy?')"><i class=ico-refresh></i> Returns</button>
         </div>
       </div>`;
   },
@@ -200,8 +200,8 @@ const SiteChrome = {
                 and royal velvet wedding ensembles.
               </p>
               <div class="rf-footer-contact">
-                <div>📍 ${Media.escapeHtml(cfg.merchant.address)}</div>
-                <div>💬 <a href="${wa}" target="_blank" rel="noopener">WhatsApp ${Media.escapeHtml(
+                <div><i class=ico-pin></i> ${Media.escapeHtml(cfg.merchant.address)}</div>
+                <div><i class=ico-chat></i> <a href="${wa}" target="_blank" rel="noopener">WhatsApp ${Media.escapeHtml(
                   cfg.merchant.supportPhone
                 )}</a></div>
               </div>
@@ -221,11 +221,11 @@ const SiteChrome = {
             <div>
               <h4>Help &amp; orders</h4>
               <ul>
-                <li><a href="orders.html">📦 Track your order</a></li>
-                <li><a href="javascript:void(0)" onclick="UIInteractions.openSizeGuideModal()">📏 Size guide</a></li>
-                <li><a href="javascript:void(0)" onclick="UIInteractions.askBot('How do I pay by UPI?')">⚡ How UPI payment works</a></li>
-                <li><a href="javascript:void(0)" onclick="UIInteractions.askBot('What is your return policy?')">🔄 Returns &amp; exchange</a></li>
-                <li><a href="javascript:void(0)" onclick="UIInteractions.askBot('Fabric care')">🧵 Fabric care</a></li>
+                <li><a href="orders.html"><i class=ico-package></i> Track your order</a></li>
+                <li><a href="javascript:void(0)" onclick="UIInteractions.openSizeGuideModal()"><i class=ico-ruler></i> Size guide</a></li>
+                <li><a href="javascript:void(0)" onclick="UIInteractions.askBot('How do I pay by UPI?')"><i class=ico-bolt></i> How UPI payment works</a></li>
+                <li><a href="javascript:void(0)" onclick="UIInteractions.askBot('What is your return policy?')"><i class=ico-refresh></i> Returns &amp; exchange</a></li>
+                <li><a href="javascript:void(0)" onclick="UIInteractions.askBot('Fabric care')"><i class=ico-thread></i> Fabric care</a></li>
               </ul>
             </div>
 
@@ -242,9 +242,9 @@ const SiteChrome = {
           <div class="rf-footer-bottom">
             <div>© ${new Date().getFullYear()} Reji Fashions. Handcrafted with pride in India.</div>
             <div class="rf-footer-trust">
-              <span>🔒 Secure checkout</span>
-              <span>⚡ UPI · RuPay · Cash on delivery</span>
-              <span>🛡️ Verified authentic silks</span>
+              <span><i class=ico-lock></i> Secure checkout</span>
+              <span><i class=ico-bolt></i> UPI · RuPay · Cash on delivery</span>
+              <span><i class=ico-shield></i> Verified authentic silks</span>
               <a href="studio.html">Studio view</a>
               <a href="admin.html">Shop admin</a>
             </div>
@@ -268,7 +268,7 @@ const SiteChrome = {
       /* ignore */
     }
     input.value = "";
-    UIInteractions.showToast("✨ Thank you for subscribing to Reji Fashions!");
+    UIInteractions.showToast("<i class=ico-sparkle></i> Thank you for subscribing to Reji Fashions!");
   },
 
   /** Replace every <div data-rf-chrome="..."> placeholder with its markup. */

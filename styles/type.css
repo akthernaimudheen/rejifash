@@ -1,0 +1,73 @@
+/* ==========================================================================
+   REJI FASHIONS — Typography
+   Loaded after components.css deliberately. main.css is imported first, so
+   type rules placed there lose to every component rule that names the same
+   element; this file is where the type system actually wins.
+   ========================================================================== */
+
+Instrument Serif ships in a single weight. Anything asking it for 600–800
+   gets a synthesised bold from the browser, which smears the letterforms and
+   is the fastest way to make good type look cheap. Every serif heading is
+   pinned to 400 and gets its presence from size and tight tracking instead. */
+
+.section-title,
+.rf-hero-title,
+.brand-title,
+.rf-card-title,
+.rf-pdp-title,
+.st-display,
+.st-h2,
+h1, h2, h3, h4, h5 {
+  font-synthesis-weight: none;
+}
+
+[style*="var(--font-serif)"],
+.section-title,
+.rf-hero-title,
+.rf-card-title,
+.rf-pdp-title,
+.st-display,
+.st-h2,
+.rf-drawer-title,
+.rf-confirm-title,
+.rf-summary-title {
+  font-weight: 400 !important;
+  letter-spacing: -0.02em;
+}
+
+/* Labels, eyebrows, prices and codes take the mono. A little machined
+   typography is what separates expensive-minimal from empty. */
+.section-subtitle,
+.rf-filter-label,
+.st-eyebrow,
+.rf-result-count,
+.rf-card-category,
+.rf-badge,
+.rf-pill,
+.rf-admin-stat-label,
+.rf-invoice-meta,
+.rf-track-event-time {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+}
+
+.rf-current-price,
+.rf-pdp-price,
+.rf-upi-amount,
+.st-card-price,
+.rf-cart-item-price,
+.rf-admin-stat-value,
+.rf-track-total strong {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Icons sit on the text baseline rather than floating like emoji did. */
+.rf-icon {
+  display: inline-block;
+  vertical-align: -0.18em;
+  flex: none;
+}
+

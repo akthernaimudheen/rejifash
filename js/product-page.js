@@ -33,7 +33,7 @@ const ProductPage = {
     if (!this.product) {
       document.getElementById("pdpRoot").innerHTML = `
         <div class="rf-empty-state">
-          <div class="rf-empty-icon">🧵</div>
+          <div class="rf-empty-icon"><i class=ico-thread></i></div>
           <h3>We couldn't find that design</h3>
           <p>It may have sold out or been renamed.</p>
           <a class="btn btn-wine" href="index.html#catalog">Browse the collection</a>
@@ -121,7 +121,7 @@ const ProductPage = {
                  </figcaption>`
               : ""
           }
-          <p class="rf-pdp-zoom-hint">🔍 Hover over the image to zoom</p>
+          <p class="rf-pdp-zoom-hint"><i class=ico-search></i> Hover over the image to zoom</p>
         </div>
       </div>`;
   },
@@ -198,7 +198,7 @@ const ProductPage = {
         <div class="rf-pdp-block">
           <div class="rf-pdp-block-head">
             <h4>Select size</h4>
-            <button class="rf-text-link" onclick="UIInteractions.openSizeGuideModal()">📏 Size guide</button>
+            <button class="rf-text-link" onclick="UIInteractions.openSizeGuideModal()"><i class=ico-ruler></i> Size guide</button>
           </div>
           <div class="rf-pdp-sizes">
             ${p.sizes
@@ -210,7 +210,7 @@ const ProductPage = {
               .join("")}
           </div>
           <button class="rf-text-link" onclick="UIInteractions.openCustomStudio('${p.id}')">
-            ✂️ None of these fit? Get it stitched to your measurements — no extra charge
+            <i class=ico-scissors></i> None of these fit? Get it stitched to your measurements — no extra charge
           </button>
         </div>
 
@@ -227,8 +227,8 @@ const ProductPage = {
         </div>
 
         <div class="rf-pdp-cta">
-          <button class="btn btn-outline btn-lg" onclick="ProductPage.addToBag()">🛍️ Add to bag</button>
-          <button class="btn btn-wine btn-lg" onclick="ProductPage.buyNow()">⚡ Buy now</button>
+          <button class="btn btn-outline btn-lg" onclick="ProductPage.addToBag()"><i class=ico-bag></i> Add to bag</button>
+          <button class="btn btn-wine btn-lg" onclick="ProductPage.buyNow()"><i class=ico-bolt></i> Buy now</button>
         </div>
 
         <div class="rf-pdp-delivery">
@@ -241,10 +241,10 @@ const ProductPage = {
         </div>
 
         <ul class="rf-pdp-assurance">
-          <li>🧵 100% pure fabric, verified weave</li>
-          <li>✂️ Free made-to-measure tailoring</li>
-          <li>🔄 7-day easy returns</li>
-          <li>⚡ Pay securely by UPI or on delivery</li>
+          <li><i class=ico-thread></i> 100% pure fabric, verified weave</li>
+          <li><i class=ico-scissors></i> Free made-to-measure tailoring</li>
+          <li><i class=ico-refresh></i> 7-day easy returns</li>
+          <li><i class=ico-bolt></i> Pay securely by UPI or on delivery</li>
         </ul>
       </div>`;
   },
@@ -384,7 +384,7 @@ const ProductPage = {
             .join("")}
         </div>
         <p class="rf-pdp-colour-note">
-          📸 All photographs are shot on the same studio backdrop under neutral light.
+          <i class=ico-camera></i> All photographs are shot on the same studio backdrop under neutral light.
           Screen calibration can still shift colour slightly — the colour name above
           (<strong>${this.esc(this.product.color)}</strong>) is the reference.
         </p>

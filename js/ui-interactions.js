@@ -30,7 +30,7 @@ const UIInteractions = {
     toast.className = "rf-toast";
     if (options.key) toast.dataset.toastKey = options.key;
     toast.innerHTML = `
-      <div style="color: var(--rf-gold-600); font-size: 1.1rem;">✦</div>
+      <div style="color: var(--rf-gold-600); font-size: 1.1rem;"><i class=ico-sparkle></i></div>
       <div>${messageHtml}</div>
     `;
     container.appendChild(toast);
@@ -57,7 +57,7 @@ const UIInteractions = {
         <div class="rf-modal-gallery">
           ${Media.frame(product, { variant: "hero", eager: true, showCaption: true })}
           <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-            <span class="rf-badge rf-badge-gold">✦ 100% Handcrafted</span>
+            <span class="rf-badge rf-badge-gold"><i class=ico-sparkle></i> 100% Handcrafted</span>
             <span class="rf-badge rf-badge-wine">Authentic Zari</span>
           </div>
         </div>
@@ -110,7 +110,7 @@ const UIInteractions = {
               <span style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase;">SELECT SIZE</span>
               <button style="font-size: 0.8rem; font-weight: 700; color: var(--rf-wine-700); text-decoration: underline;" 
                       onclick="UIInteractions.openSizeGuideModal()">
-                📏 Size & Measurement Guide
+                <i class=ico-ruler></i> Size & Measurement Guide
               </button>
             </div>
             
@@ -131,7 +131,7 @@ const UIInteractions = {
               Add to Shopping Bag
             </button>
             <button class="btn btn-gold" onclick="UIInteractions.openCustomStudio('${product.id}')">
-              ✂️ Custom Tailoring Fit
+              <i class=ico-scissors></i> Custom Tailoring Fit
             </button>
           </div>
 
@@ -358,27 +358,27 @@ const UIInteractions = {
 
     if (q.includes("upi") || q.includes("pay") || q.includes("qr") || q.includes("utr")) {
       botReply =
-        "⚡ At checkout choose UPI. We show a QR with the amount and your order number already filled in — scan it with Google Pay, PhonePe, Paytm or BHIM. " +
+        "<i class=ico-bolt></i> At checkout choose UPI. We show a QR with the amount and your order number already filled in — scan it with Google Pay, PhonePe, Paytm or BHIM. " +
         "Afterwards enter the 12-digit reference (UTR) your app shows so we can match the payment. We confirm on WhatsApp once it clears. " +
         "Prefer to pay later? Cash on delivery is available too.";
     } else if (q.includes("track") || q.includes("order") || q.includes("status")) {
       botReply =
-        "📦 Head to the Track Order page and enter your order ID (e.g. RF-260808-0001) with the mobile number you used at checkout. " +
+        "<i class=ico-package></i> Head to the Track Order page and enter your order ID (e.g. RF-260808-0001) with the mobile number you used at checkout. " +
         "You'll see the live status, and if the payment is still pending you can finish it right there.";
     } else if (q.includes("custom") || q.includes("stitch") || q.includes("tailor") || q.includes("size")) {
       botReply =
-        "✂️ Made-to-measure stitching is free. Open any design and choose 'Custom Tailoring Fit' to enter your exact bust, waist, hip, length and sleeve in inches.";
+        "<i class=ico-scissors></i> Made-to-measure stitching is free. Open any design and choose 'Custom Tailoring Fit' to enter your exact bust, waist, hip, length and sleeve in inches.";
     } else if (q.includes("fabric") || q.includes("care") || q.includes("silk") || q.includes("wash")) {
       botReply =
-        "🧵 Our Chanderi silks and Banarasi brocades are pure weaves. Dry clean the first wash to protect the zari; mulmul cottons can be machine washed cold.";
+        "<i class=ico-thread></i> Our Chanderi silks and Banarasi brocades are pure weaves. Dry clean the first wash to protect the zari; mulmul cottons can be machine washed cold.";
     } else if (q.includes("return") || q.includes("exchange") || q.includes("refund")) {
       botReply =
-        "✨ 7-day doorstep return and exchange across India. Custom-stitched pieces can be altered free of charge but aren't returnable.";
+        "<i class=ico-sparkle></i> 7-day doorstep return and exchange across India. Custom-stitched pieces can be altered free of charge but aren't returnable.";
     } else if (q.includes("discount") || q.includes("coupon") || q.includes("offer")) {
-      botReply = "🎉 Use REJI20 for flat 20% off, or FESTIVE500 for ₹500 off orders above ₹2,999.";
+      botReply = "<i class=ico-sparkle></i> Use REJI20 for flat 20% off, or FESTIVE500 for ₹500 off orders above ₹2,999.";
     } else if (q.includes("deliver") || q.includes("ship")) {
       botReply =
-        "🚚 Dispatch is within 24 hours. Metro PIN codes usually receive in 3 days, elsewhere around 5. Delivery is free above ₹1,999.";
+        "<i class=ico-truck></i> Dispatch is within 24 hours. Metro PIN codes usually receive in 3 days, elsewhere around 5. Delivery is free above ₹1,999.";
     }
 
     setTimeout(() => {

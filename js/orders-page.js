@@ -123,7 +123,7 @@ const OrdersPage = {
              href="${RejiAPI.waLink(
                RejiAPI.config.merchant.whatsappNumber,
                `Hi Reji Fashions, I need help tracking order ${id}.`
-             )}">💬 Ask on WhatsApp</a>
+             )}"><i class=ico-chat></i> Ask on WhatsApp</a>
         </div>`;
     }
   },
@@ -150,7 +150,7 @@ const OrdersPage = {
 
       return `
         <div class="rf-track-pay">
-          <h3>⚡ Complete your payment</h3>
+          <h3><i class=ico-bolt></i> Complete your payment</h3>
           <p>Your order is reserved but not yet paid. Scan below — the amount and reference are pre-filled.</p>
           ${
             error
@@ -163,7 +163,7 @@ const OrdersPage = {
                         `Hi Reji Fashions, I'd like to pay for order ${order.id} (${AppState.formatPrice(
                           order.pricing.total
                         )}).`
-                      )}">💬 Ask for payment details</a>
+                      )}"><i class=ico-chat></i> Ask for payment details</a>
                  </div>`
               : `<div class="rf-track-pay-grid">
                    <div class="rf-upi-qr">${qr}</div>
@@ -212,7 +212,7 @@ const OrdersPage = {
     if (order.paymentStatus === "submitted") {
       return `
         <div class="rf-track-banner rf-track-banner--info">
-          <strong>⏳ Verifying your payment</strong>
+          <strong><i class=ico-clock></i> Verifying your payment</strong>
           <p>We've received your confirmation${
             order.payment.upiRef ? ` (UTR <strong>${this.esc(order.payment.upiRef)}</strong>)` : ""
           } and are matching it against our bank. You'll get a WhatsApp message once it clears.</p>
@@ -222,7 +222,7 @@ const OrdersPage = {
     if (order.paymentStatus === "verified") {
       return `
         <div class="rf-track-banner rf-track-banner--ok">
-          <strong>✅ Payment verified</strong>
+          <strong><i class=ico-check></i> Payment verified</strong>
           <p>${AppState.formatPrice(order.pricing.total)} received${
             order.payment.verifiedAt
               ? ` on ${new Date(order.payment.verifiedAt).toLocaleDateString("en-IN", {
@@ -237,7 +237,7 @@ const OrdersPage = {
     if (order.paymentStatus === "failed") {
       return `
         <div class="rf-track-banner rf-track-banner--warn">
-          <strong>⚠️ We couldn't trace your payment</strong>
+          <strong><i class=ico-alert></i> We couldn't trace your payment</strong>
           <p>${this.esc(order.payment.failureReason || "Not found in our bank statement.")}
              Please re-check the UTR or message us — if money left your account we'll sort it out.</p>
           <a class="btn btn-wine btn-sm" target="_blank" rel="noopener"
@@ -246,26 +246,26 @@ const OrdersPage = {
                `Hi Reji Fashions, my payment for order ${order.id} shows as not found. I paid ${AppState.formatPrice(
                  order.pricing.total
                )}${order.payment.upiRef ? ` with UTR ${order.payment.upiRef}` : ""}.`
-             )}">💬 Sort this out on WhatsApp</a>
+             )}"><i class=ico-chat></i> Sort this out on WhatsApp</a>
         </div>`;
     }
 
     return `
       <div class="rf-track-banner rf-track-banner--ok">
-        <strong>💵 Cash on delivery</strong>
+        <strong><i class=ico-cash></i> Cash on delivery</strong>
         <p>Keep ${AppState.formatPrice(order.pricing.total)} ready when your parcel arrives.</p>
       </div>`;
   },
 
   timeline(order) {
     const stages = [
-      { key: "placed", icon: "🧾", label: "Order placed" },
-      { key: "confirmed", icon: "✅", label: "Confirmed" },
-      { key: "tailoring", icon: "✂️", label: "Tailoring" },
-      { key: "quality_check", icon: "🔍", label: "Quality check" },
-      { key: "packed", icon: "📦", label: "Packed" },
-      { key: "shipped", icon: "🚚", label: "Shipped" },
-      { key: "delivered", icon: "🏠", label: "Delivered" }
+      { key: "placed", icon: "<i class=ico-receipt></i>", label: "Order placed" },
+      { key: "confirmed", icon: "<i class=ico-check></i>", label: "Confirmed" },
+      { key: "tailoring", icon: "<i class=ico-scissors></i>", label: "Tailoring" },
+      { key: "quality_check", icon: "<i class=ico-search></i>", label: "Quality check" },
+      { key: "packed", icon: "<i class=ico-package></i>", label: "Packed" },
+      { key: "shipped", icon: "<i class=ico-truck></i>", label: "Shipped" },
+      { key: "delivered", icon: "<i class=ico-home></i>", label: "Delivered" }
     ];
     const currentIndex = stages.findIndex(s => s.key === order.orderStatus);
 
@@ -322,7 +322,7 @@ const OrdersPage = {
                 <div>
                   <strong>${this.esc(item.name)}</strong>
                   <span>Size ${this.esc(item.size)} · Qty ${item.quantity}</span>
-                  ${item.customNotes ? `<em>✂️ ${this.esc(item.customNotes)}</em>` : ""}
+                  ${item.customNotes ? `<em><i class=ico-scissors></i> ${this.esc(item.customNotes)}</em>` : ""}
                 </div>
                 <div class="rf-track-item-price">${AppState.formatPrice(item.price * item.quantity)}</div>
               </div>`;
@@ -377,8 +377,8 @@ const OrdersPage = {
              href="${RejiAPI.waLink(
                cfg.merchant.whatsappNumber,
                `Hi Reji Fashions, I have a question about order ${order.id}.`
-             )}">💬 Message us about this order</a>
-          <button class="btn btn-outline btn-sm" onclick="window.print()">🖨️ Print</button>
+             )}"><i class=ico-chat></i> Message us about this order</a>
+          <button class="btn btn-outline btn-sm" onclick="window.print()"><i class=ico-printer></i> Print</button>
           <a class="btn btn-outline btn-sm" href="index.html#catalog">Continue shopping</a>
         </footer>
       </article>`;
@@ -424,9 +424,9 @@ const OrdersPage = {
       this.order = response.order;
       this.proofDataUrl = null;
       this.renderOrder();
-      UIInteractions.showToast("✅ Thank you — we're verifying your payment now.");
+      UIInteractions.showToast("<i class=ico-check></i> Thank you — we're verifying your payment now.");
     } catch (e) {
-      UIInteractions.showToast(`⚠️ ${e.message}`);
+      UIInteractions.showToast(`<i class=ico-alert></i> ${e.message}`);
       if (button) {
         button.disabled = false;
         button.textContent = `I've paid ${AppState.formatPrice(this.order.pricing.total)}`;

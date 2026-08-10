@@ -410,7 +410,7 @@ const AppState = {
     if (filtered.length === 0) {
       grid.innerHTML = `
         <div class="rf-empty-state">
-          <div class="rf-empty-icon">✨</div>
+          <div class="rf-empty-icon"><i class=ico-sparkle></i></div>
           <h3>No matching garments found</h3>
           <p>Try widening the price range or clearing the fabric filter.</p>
           <button class="btn btn-outline" onclick="AppState.resetFilters()">Reset all filters</button>
@@ -561,7 +561,7 @@ const AppState = {
     // from the grid needlessly slow. The toast carries the link instead.
     const count = this.cart.reduce((sum, i) => sum + i.quantity, 0);
     UIInteractions.showToast(
-      `✨ <strong>${Media.escapeHtml(product.name)}</strong> · size ${Media.escapeHtml(size)}
+      `<i class=ico-sparkle></i> <strong>${Media.escapeHtml(product.name)}</strong> · size ${Media.escapeHtml(size)}
        <button class="rf-toast-action" onclick="AppState.openCartDrawer()">View bag (${count})</button>`,
       { key: "cart" }
     );
@@ -629,7 +629,7 @@ const AppState = {
     if (this.cart.length === 0) {
       container.innerHTML = `
         <div class="rf-empty-state rf-empty-state--drawer">
-          <div class="rf-empty-icon">🛍️</div>
+          <div class="rf-empty-icon"><i class=ico-bag></i></div>
           <h4>Your shopping bag is empty</h4>
           <p>Explore our festive churidars and handblock kurtis.</p>
           <button class="btn btn-primary" onclick="AppState.closeCartDrawer()">Start exploring</button>
@@ -654,7 +654,7 @@ const AppState = {
       progressText.innerHTML =
         remaining > 0
           ? `Add <strong>${this.formatPrice(remaining)}</strong> more for <strong>FREE express delivery</strong>`
-          : `🎉 You've unlocked <strong>FREE express delivery</strong>`;
+          : `<i class=ico-sparkle></i> You've unlocked <strong>FREE express delivery</strong>`;
     }
 
     if (subtotalEl) subtotalEl.textContent = this.formatPrice(pricing.subtotal);
@@ -684,7 +684,7 @@ const AppState = {
             <div class="rf-cart-item-meta">
               <span>Size <strong>${Media.escapeHtml(item.size)}</strong></span> ·
               <span>${Media.escapeHtml(item.color || "")}</span>
-              ${item.customNotes ? `<div class="rf-cart-custom">✂️ ${Media.escapeHtml(item.customNotes)}</div>` : ""}
+              ${item.customNotes ? `<div class="rf-cart-custom"><i class=ico-scissors></i> ${Media.escapeHtml(item.customNotes)}</div>` : ""}
             </div>
             <div class="rf-cart-item-actions">
               <div class="rf-qty-selector">
@@ -735,7 +735,7 @@ const AppState = {
       /* ignore */
     }
     this.renderCartDrawer();
-    UIInteractions.showToast(`🎉 <strong>${code}</strong> applied — ${Media.escapeHtml(coupon.description)}`);
+    UIInteractions.showToast(`<i class=ico-sparkle></i> <strong>${code}</strong> applied — ${Media.escapeHtml(coupon.description)}`);
   },
 
   toggleWishlist(productId) {
@@ -748,7 +748,7 @@ const AppState = {
       UIInteractions.showToast("Removed from wishlist");
     } else {
       this.wishlist.push(productId);
-      UIInteractions.showToast(`❤️ <strong>${Media.escapeHtml(product.name)}</strong> saved to wishlist`);
+      UIInteractions.showToast(`<i class=ico-heart></i> <strong>${Media.escapeHtml(product.name)}</strong> saved to wishlist`);
     }
     this.persistWishlist();
     this.renderProducts();

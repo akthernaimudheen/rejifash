@@ -119,7 +119,7 @@ const CheckoutEngine = {
               <span class="rf-summary-item-name">
                 ${Media.escapeHtml(item.name)}
                 <em>Size ${Media.escapeHtml(item.size)} · Qty ${item.quantity}</em>
-                ${item.customNotes ? `<em class="rf-summary-custom">✂️ Custom fit</em>` : ""}
+                ${item.customNotes ? `<em class="rf-summary-custom"><i class=ico-scissors></i> Custom fit</em>` : ""}
               </span>
               <strong>${this.money(item.lineTotal)}</strong>
             </div>`
@@ -202,7 +202,7 @@ const CheckoutEngine = {
           <button class="btn btn-wine btn-lg rf-summary-cta" onclick="CheckoutEngine.goToPayment()">
             Continue to payment →
           </button>
-          <p class="rf-summary-note">🔒 You'll review everything before paying.</p>
+          <p class="rf-summary-note"><i class=ico-lock></i> You'll review everything before paying.</p>
         `)}
       </div>`;
   },
@@ -320,7 +320,7 @@ const CheckoutEngine = {
               <input type="radio" name="payMethod" ${this.paymentMethod === "upi" ? "checked" : ""}
                      onchange="CheckoutEngine.selectPaymentMethod('upi')">
               <span class="rf-pay-method-body">
-                <strong>⚡ UPI — Scan &amp; Pay</strong>
+                <strong><i class=ico-bolt></i> UPI — Scan &amp; Pay</strong>
                 <em>Google Pay · PhonePe · Paytm · BHIM · any UPI app</em>
               </span>
               <span class="rf-pay-badge">Recommended</span>
@@ -333,7 +333,7 @@ const CheckoutEngine = {
                      ${codAvailable ? "" : "disabled"}
                      onchange="CheckoutEngine.selectPaymentMethod('cod')">
               <span class="rf-pay-method-body">
-                <strong>💵 Cash on Delivery</strong>
+                <strong><i class=ico-cash></i> Cash on Delivery</strong>
                 <em>${
                   codAvailable
                     ? "Pay the courier at your doorstep"
@@ -368,7 +368,7 @@ const CheckoutEngine = {
   renderCodPanel() {
     return `
       <div class="rf-cod-panel">
-        <div class="rf-cod-icon">💵</div>
+        <div class="rf-cod-icon"><i class=ico-cash></i></div>
         <h4>Cash on Delivery</h4>
         <p>Pay ${this.money(this.quote.pricing.total)} in cash — or scan the courier's UPI QR — when your parcel arrives.</p>
         <button class="btn btn-wine btn-lg" onclick="CheckoutEngine.placeOrder()" id="codPlaceBtn">
@@ -425,7 +425,7 @@ const CheckoutEngine = {
       if (this.paymentMethod === "cod") {
         this.step = 3;
         this.render();
-        UIInteractions.showToast(`🎉 Order <strong>${this.order.id}</strong> placed!`);
+        UIInteractions.showToast(`<i class=ico-sparkle></i> Order <strong>${this.order.id}</strong> placed!`);
       } else {
         // Stay on step 2 and swap the panel for the live QR.
         const panel = document.getElementById("paymentPanel");
@@ -434,7 +434,7 @@ const CheckoutEngine = {
         UIInteractions.showToast(`Order <strong>${this.order.id}</strong> reserved — complete the payment`);
       }
     } catch (e) {
-      UIInteractions.showToast(`⚠️ ${e.message}`);
+      UIInteractions.showToast(`<i class=ico-alert></i> ${e.message}`);
       if (button) {
         button.disabled = false;
         button.innerHTML = original;
@@ -482,7 +482,7 @@ const CheckoutEngine = {
             Send it to us on WhatsApp and we'll share payment details straight away.
           </p>
           <a class="btn btn-wine" target="_blank" rel="noopener"
-             href="${this.whatsapp?.customerLink || "#"}">💬 Send order on WhatsApp</a>
+             href="${this.whatsapp?.customerLink || "#"}"><i class=ico-chat></i> Send order on WhatsApp</a>
           <button class="rf-text-link" onclick="CheckoutEngine.skipToConfirmation()">
             Show my order details
           </button>
@@ -576,7 +576,7 @@ const CheckoutEngine = {
       }
       const m = Math.floor(remaining / 60);
       const s = String(remaining % 60).padStart(2, "0");
-      target.innerHTML = `<span class="rf-timer">⏳ Valid for ${m}:${s}</span>`;
+      target.innerHTML = `<span class="rf-timer"><i class=ico-clock></i> Valid for ${m}:${s}</span>`;
       remaining--;
     };
 
@@ -673,7 +673,7 @@ const CheckoutEngine = {
       this.step = 3;
       this.render();
     } catch (e) {
-      UIInteractions.showToast(`⚠️ ${e.message}`);
+      UIInteractions.showToast(`<i class=ico-alert></i> ${e.message}`);
       if (button) {
         button.disabled = false;
         button.textContent = `I've paid ${this.money(this.order.pricing.total)}`;
@@ -732,14 +732,14 @@ const CheckoutEngine = {
           <a class="btn btn-wine" target="_blank" rel="noopener" href="${
             this.whatsapp?.customerLink || RejiAPI.waLink(cfg.merchant.whatsappNumber, RejiAPI.customerMessage(order))
           }">
-            💬 Send order on WhatsApp
+            <i class=ico-chat></i> Send order on WhatsApp
           </a>
           <a class="btn btn-outline" href="orders.html?id=${encodeURIComponent(
             order.id
           )}&phone=${encodeURIComponent(order.customer.phone)}">
-            📦 Track this order
+            <i class=ico-package></i> Track this order
           </a>
-          <button class="btn btn-outline" onclick="CheckoutEngine.printInvoice()">🖨️ Invoice</button>
+          <button class="btn btn-outline" onclick="CheckoutEngine.printInvoice()"><i class=ico-printer></i> Invoice</button>
         </div>
 
         ${this.renderTimeline(order)}
@@ -751,12 +751,12 @@ const CheckoutEngine = {
 
   renderTimeline(order) {
     const stages = [
-      { key: "placed", icon: "🧾", label: "Order Placed" },
-      { key: "confirmed", icon: "✅", label: "Payment Confirmed" },
-      { key: "tailoring", icon: "✂️", label: "Tailoring" },
-      { key: "packed", icon: "📦", label: "Packed" },
-      { key: "shipped", icon: "🚚", label: "Shipped" },
-      { key: "delivered", icon: "🏠", label: "Delivered" }
+      { key: "placed", icon: "<i class=ico-receipt></i>", label: "Order Placed" },
+      { key: "confirmed", icon: "<i class=ico-check></i>", label: "Payment Confirmed" },
+      { key: "tailoring", icon: "<i class=ico-scissors></i>", label: "Tailoring" },
+      { key: "packed", icon: "<i class=ico-package></i>", label: "Packed" },
+      { key: "shipped", icon: "<i class=ico-truck></i>", label: "Shipped" },
+      { key: "delivered", icon: "<i class=ico-home></i>", label: "Delivered" }
     ];
     const order_ = ["placed", "confirmed", "tailoring", "quality_check", "packed", "shipped", "delivered"];
     const currentIndex = order_.indexOf(order.orderStatus);

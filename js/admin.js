@@ -221,7 +221,7 @@ const Admin = {
         orders.length
           ? `<div class="rf-admin-orders">${orders.map(o => this.renderOrderCard(o)).join("")}</div>`
           : `<div class="rf-admin-empty">
-               <div class="rf-empty-icon">✨</div>
+               <div class="rf-empty-icon"><i class=ico-sparkle></i></div>
                <h3>Nothing here right now</h3>
                <p>New orders appear automatically — this view refreshes every 20 seconds.</p>
              </div>`
@@ -301,7 +301,7 @@ const Admin = {
                   <span>Size ${this.esc(item.size)} · Qty ${item.quantity} · ${this.money(
                     item.price * item.quantity
                   )}</span>
-                  ${item.customNotes ? `<em>✂️ ${this.esc(item.customNotes)}</em>` : ""}
+                  ${item.customNotes ? `<em><i class=ico-scissors></i> ${this.esc(item.customNotes)}</em>` : ""}
                 </li>`
                 )
                 .join("")}
@@ -329,13 +329,13 @@ const Admin = {
               ${this.esc(order.customer.name)}<br>
               ${this.esc(order.customer.address)}<br>
               ${this.esc(order.customer.city)} ${this.esc(order.customer.pincode)}<br>
-              📞 ${this.esc(order.customer.phone)}
-              ${order.customer.email ? `<br>✉️ ${this.esc(order.customer.email)}` : ""}
+              <i class=ico-phone></i> ${this.esc(order.customer.phone)}
+              ${order.customer.email ? `<br><i class=ico-mail></i> ${this.esc(order.customer.email)}` : ""}
             </p>
-            ${order.customer.notes ? `<p class="rf-admin-note">📝 ${this.esc(order.customer.notes)}</p>` : ""}
+            ${order.customer.notes ? `<p class="rf-admin-note"><i class=ico-receipt></i> ${this.esc(order.customer.notes)}</p>` : ""}
             <div class="rf-admin-copy-row">
               <button class="btn btn-outline btn-sm" onclick="Admin.copyAddress('${order.id}')">Copy address</button>
-              <a class="btn btn-outline btn-sm" target="_blank" rel="noopener" href="${waCustomer}">💬 WhatsApp customer</a>
+              <a class="btn btn-outline btn-sm" target="_blank" rel="noopener" href="${waCustomer}"><i class=ico-chat></i> WhatsApp customer</a>
             </div>
           </section>
 
@@ -372,10 +372,10 @@ const Admin = {
                      </p>
                      <div class="rf-admin-actions">
                        <button class="btn btn-emerald btn-sm" onclick="Admin.setPayment('${order.id}','verified')">
-                         ✅ Payment received
+                         <i class=ico-check></i> Payment received
                        </button>
                        <button class="btn btn-outline btn-sm" onclick="Admin.setPayment('${order.id}','failed')">
-                         ⚠️ Not found
+                         <i class=ico-alert></i> Not found
                        </button>
                      </div>
                    </div>`
@@ -428,7 +428,7 @@ const Admin = {
                        .map(
                          n => `<li>
                            ${new Date(n.at).toLocaleString("en-IN")} · ${this.esc(n.kind || "alert")} ·
-                           ${n.sent ? "✅ sent automatically" : n.error ? `⚠️ ${this.esc(n.error)}` : "link only"}
+                           ${n.sent ? "<i class=ico-check></i> sent automatically" : n.error ? `<i class=ico-alert></i> ${this.esc(n.error)}` : "link only"}
                            ${n.link ? ` · <a href="${this.esc(n.link)}" target="_blank" rel="noopener">open in WhatsApp</a>` : ""}
                          </li>`
                        )
@@ -469,13 +469,13 @@ const Admin = {
       await this.reload();
       if (response.customerLink) {
         this.showFollowUp(
-          status === "verified" ? "Payment verified ✅" : "Marked as not found",
+          status === "verified" ? "Payment verified <i class=ico-check></i>" : "Marked as not found",
           "Send the customer a WhatsApp update?",
           response.customerLink
         );
       }
     } catch (e) {
-      this.toast(`⚠️ ${e.message}`);
+      this.toast(`<i class=ico-alert></i> ${e.message}`);
     }
   },
 
@@ -497,7 +497,7 @@ const Admin = {
         );
       }
     } catch (e) {
-      this.toast(`⚠️ ${e.message}`);
+      this.toast(`<i class=ico-alert></i> ${e.message}`);
     }
   },
 
@@ -515,7 +515,7 @@ const Admin = {
         <span>${this.esc(message)}</span>
       </div>
       <a class="btn btn-wine btn-sm" href="${this.esc(link)}" target="_blank" rel="noopener"
-         onclick="document.getElementById('rfFollowUp').remove()">💬 Send</a>
+         onclick="document.getElementById('rfFollowUp').remove()"><i class=ico-chat></i> Send</a>
       <button class="rf-followup-close" onclick="document.getElementById('rfFollowUp').remove()">✕</button>`;
     document.body.appendChild(node);
     setTimeout(() => node.remove(), 15000);
@@ -536,7 +536,7 @@ const Admin = {
           illustrated artwork. Upload real photos through the Image Studio to replace them.
         </div>
         <div class="rf-admin-actions">
-          <button class="btn btn-outline btn-sm" onclick="Admin.exportCatalog()">⬇ Export catalog</button>
+          <button class="btn btn-outline btn-sm" onclick="Admin.exportCatalog()"><i class=ico-download></i> Export catalog</button>
           <button class="btn btn-wine btn-sm" onclick="Admin.newProduct()">+ New design</button>
         </div>
       </div>
@@ -562,7 +562,7 @@ const Admin = {
             </div>
             <div class="rf-admin-product-actions">
               <button class="btn btn-outline btn-sm" onclick="Admin.editProduct('${p.id}')">Edit</button>
-              <button class="btn btn-gold btn-sm" onclick="Admin.openStudioFor('${p.id}')">📷 Photos</button>
+              <button class="btn btn-gold btn-sm" onclick="Admin.openStudioFor('${p.id}')"><i class=ico-camera></i> Photos</button>
             </div>
           </div>`
           )
@@ -789,7 +789,7 @@ const Admin = {
                  </div>`
               : `<p class="rf-admin-hint">No photographs yet — the storefront shows generated artwork for this design.</p>`
           }
-          <button class="btn btn-gold btn-sm" onclick="Admin.openStudioFor('${p.id}')">📷 Add photos in the Image Studio</button>
+          <button class="btn btn-gold btn-sm" onclick="Admin.openStudioFor('${p.id}')"><i class=ico-camera></i> Add photos in the Image Studio</button>
         </div>
       </div>`;
   },
@@ -822,9 +822,9 @@ const Admin = {
       await RejiAPI.adminSaveProduct(p);
       this.editingProduct = null;
       await this.reload();
-      this.toast("✅ Design saved");
+      this.toast("<i class=ico-check></i> Design saved");
     } catch (e) {
-      this.toast(`⚠️ ${e.message}`);
+      this.toast(`<i class=ico-alert></i> ${e.message}`);
     }
   },
 
@@ -836,7 +836,7 @@ const Admin = {
       await this.reload();
       this.toast("Design deleted");
     } catch (e) {
-      this.toast(`⚠️ ${e.message}`);
+      this.toast(`<i class=ico-alert></i> ${e.message}`);
     }
   },
 
@@ -979,7 +979,7 @@ const Admin = {
                        .join("")}
                    </div>`
                 : `<div class="rf-studio-placeholder">
-                     <div class="rf-empty-icon">📷</div>
+                     <div class="rf-empty-icon"><i class=ico-camera></i></div>
                      <h4>Choose a photograph to begin</h4>
                      <p>Shoot the garment flat or on a hanger against a plain wall or bedsheet, in daylight, with the whole piece in frame. The studio does the rest.</p>
                      <ul>
@@ -1071,7 +1071,7 @@ const Admin = {
       if (captionEl) captionEl.value = caption || suggestion.caption;
       if (detailEl) detailEl.value = detail || suggestion.detail;
     } catch (e) {
-      this.toast(`⚠️ ${e.message}`);
+      this.toast(`<i class=ico-alert></i> ${e.message}`);
     } finally {
       const el = document.getElementById("studioBusy");
       if (el) el.hidden = true;
@@ -1126,9 +1126,9 @@ const Admin = {
       this.studio.result = null;
       this.tab = "products";
       this.render();
-      this.toast(`✅ Photo attached to ${product.name}`);
+      this.toast(`<i class=ico-check></i> Photo attached to ${product.name}`);
     } catch (e) {
-      this.toast(`⚠️ ${e.message}`);
+      this.toast(`<i class=ico-alert></i> ${e.message}`);
       if (button) {
         button.disabled = false;
         button.textContent = "Attach to design";
@@ -1154,7 +1154,7 @@ const Admin = {
         }
 
         <section class="rf-settings-card">
-          <h3>💰 UPI payment</h3>
+          <h3><i class=ico-cash></i> UPI payment</h3>
           <p class="rf-admin-hint">
             This is the account every customer QR pays into. Copy it exactly from your UPI app
             (Profile → UPI IDs). Get this wrong and money goes to the wrong place.
@@ -1175,7 +1175,7 @@ const Admin = {
         </section>
 
         <section class="rf-settings-card">
-          <h3>💬 WhatsApp alerts</h3>
+          <h3><i class=ico-chat></i> WhatsApp alerts</h3>
           <div class="rf-field">
             <label for="setWaNumber">Shop WhatsApp number (country code + number)</label>
             <input type="text" id="setWaNumber" value="${this.esc(cfg.merchant.whatsappNumber)}">
@@ -1206,7 +1206,7 @@ const Admin = {
         </section>
 
         <section class="rf-settings-card">
-          <h3>📷 Where photographs are stored</h3>
+          <h3><i class=ico-camera></i> Where photographs are stored</h3>
           <p class="rf-admin-hint">
             This host rebuilds its filesystem on every deploy, so photos saved to disk are lost.
             Committing them to your GitHub repository keeps them permanently, at no cost.
@@ -1228,7 +1228,7 @@ const Admin = {
         </section>
 
         <section class="rf-settings-card">
-          <h3>🖼️ Homepage hero</h3>
+          <h3><i class=ico-image></i> Homepage hero</h3>
           <p class="rf-admin-hint">
             The large garment on the front page. Only designs with a real photograph can be
             chosen — anything still on illustrated artwork is skipped.
@@ -1251,7 +1251,7 @@ const Admin = {
         </section>
 
         <section class="rf-settings-card">
-          <h3>🛍️ Store rules</h3>
+          <h3><i class=ico-bag></i> Store rules</h3>
           <div class="rf-settings-grid">
             <div class="rf-field">
               <label for="setFreeShip">Free delivery above (₹)</label>
@@ -1275,7 +1275,7 @@ const Admin = {
         </section>
 
         <section class="rf-settings-card">
-          <h3>🔐 Admin password</h3>
+          <h3><i class=ico-lock></i> Admin password</h3>
           <div class="rf-field">
             <label for="setPassword">New password <span class="rf-optional">(leave blank to keep the current one)</span></label>
             <input type="password" id="setPassword" placeholder="At least 6 characters" autocomplete="new-password">
@@ -1330,12 +1330,12 @@ const Admin = {
       const data = await RejiAPI.adminTestStorage();
       target.innerHTML =
         data.provider === "github"
-          ? `✅ Connected to <strong>${this.esc(data.result.repository)}</strong>
+          ? `<i class=ico-check></i> Connected to <strong>${this.esc(data.result.repository)}</strong>
              (branch ${this.esc(data.result.branch)}). Photographs will be committed there.`
           : `Storage is set to the server disk. Nothing to test — but on this host, uploads will
              not survive a redeploy.`;
     } catch (e) {
-      target.innerHTML = `⚠️ ${this.esc(e.message)}`;
+      target.innerHTML = `<i class=ico-alert></i> ${this.esc(e.message)}`;
     }
   },
 
@@ -1396,11 +1396,11 @@ const Admin = {
     try {
       const { result } = await RejiAPI.adminTestWhatsApp();
       target.innerHTML = result.sent
-        ? `✅ Sent to +${this.esc(result.to)} via ${this.esc(result.provider)}. Check your WhatsApp.`
-        : `${result.error ? `⚠️ ${this.esc(result.error)}. ` : ""}Open the message manually:
+        ? `<i class=ico-check></i> Sent to +${this.esc(result.to)} via ${this.esc(result.provider)}. Check your WhatsApp.`
+        : `${result.error ? `<i class=ico-alert></i> ${this.esc(result.error)}. ` : ""}Open the message manually:
            <a href="${this.esc(result.link)}" target="_blank" rel="noopener">send test on WhatsApp</a>`;
     } catch (e) {
-      target.textContent = `⚠️ ${e.message}`;
+      target.textContent = `<i class=ico-alert></i> ${e.message}`;
     }
   },
 
@@ -1463,9 +1463,9 @@ const Admin = {
     try {
       await RejiAPI.adminSaveSettings(patch);
       await this.reload();
-      this.toast("✅ Settings saved");
+      this.toast("<i class=ico-check></i> Settings saved");
     } catch (e) {
-      this.toast(`⚠️ ${e.message}`);
+      this.toast(`<i class=ico-alert></i> ${e.message}`);
     }
   }
 };
