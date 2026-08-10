@@ -1,0 +1,156 @@
+/* ==========================================================================
+   REJI FASHIONS - Depth effects
+   Cursor tilt, pointer parallax, scroll reveals. Same Premium motion as the
+   hero: one easing curve, small amplitudes, no overshoot.
+   ========================================================================== */
+
+:root {
+  --depth-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------------------------------------------------------------- tilt --- */
+
+.rf-product-card {
+  /* Defaults so the card sits flat until the pointer arrives. */
+  --depth-rx: 0deg;
+  --depth-ry: 0deg;
+  --depth-scale: 1;
+  --depth-lift: 0px;
+  --depth-glare-opacity: 0;
+  --depth-perspective: 900px;
+
+  transform: perspective(var(--depth-perspective))
+             rotateX(var(--depth-rx))
+             rotateY(var(--depth-ry))
+             scale(var(--depth-scale));
+  transform-style: preserve-3d;
+  /* Settling back is slower than following the cursor — the return should
+     feel like weight, not a snap. */
+  transition: transform 420ms var(--depth-ease), box-shadow 420ms var(--depth-ease);
+}
+
+/* While tracking, follow the pointer almost immediately. */
+.rf-product-card.rf-depth-active {
+  transition: transform 90ms var(--depth-ease), box-shadow 300ms var(--depth-ease);
+  box-shadow: 0 22px 48px rgba(31, 36, 33, 0.16);
+  z-index: 3;
+}
+
+/* The existing hover rule lifts the card 6px; that fights the tilt transform,
+   so hand the whole transform over to the effect when it is running. */
+.rf-product-card.rf-depth-active:hover {
+  transform: perspective(var(--depth-perspective))
+             rotateX(var(--depth-rx))
+             rotateY(var(--depth-ry))
+             scale(var(--depth-scale));
+}
+
+/* Push the photograph forward so the card reads as having thickness. */
+.rf-product-card .rf-card-media {
+  transform: translateZ(var(--depth-lift));
+  transition: transform 420ms var(--depth-ease);
+}
+
+/* Glare: a soft highlight opposite the cursor. Sits above the image but below
+   every control, and never intercepts a click. */
+.rf-depth-glare {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: var(--depth-glare-opacity, 0);
+  background: radial-gradient(
+    circle at var(--depth-glare-x, 50%) var(--depth-glare-y, 50%),
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(255, 255, 255, 0.28) 28%,
+    rgba(255, 255, 255, 0) 62%
+  );
+  transition: opacity 260ms var(--depth-ease);
+  mix-blend-mode: soft-light;
+}
+
+/* Controls must stay above the glare and remain clickable. */
+.rf-product-card .rf-wishlist-btn,
+.rf-product-card .rf-card-quick-actions,
+.rf-product-card .rf-card-info {
+  position: relative;
+  z-index: 6;
+}
+
+/* -------------------------------------------------------------- parallax --- */
+
+.rf-hero-carousel {
+  --depth-px: 0px;
+  --depth-py: 0px;
+}
+
+/* Composed through variables rather than style.transform, so this coexists
+   with the scale the carousel stylesheet already owns. */
+.rf-hero-slide.active .rf-hero-photo {
+  transform: scale(1) translate3d(var(--depth-px), var(--depth-py), 0);
+}
+.rf-hero-carousel:hover .rf-hero-slide.active .rf-hero-photo {
+  transform: scale(1.04) translate3d(var(--depth-px), var(--depth-py), 0);
+}
+.rf-hero-slide:not(.active) .rf-hero-photo {
+  transform: scale(1.03);
+}
+
+/* The caption drifts against the photograph at about a third the distance —
+   counter-motion is what sells the depth. */
+.rf-hero-slide.active .rf-hero-float-tag {
+  transform: translate3d(calc(var(--depth-px) * -0.35), calc(var(--depth-py) * -0.35), 0);
+}
+
+/* ---------------------------------------------------------------- reveal --- */
+
+.rf-depth-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 520ms var(--depth-ease), transform 520ms var(--depth-ease);
+}
+
+.rf-depth-reveal.rf-depth-shown {
+  opacity: 1;
+  transform: none;
+}
+
+/* A revealed card must not keep a stale transform that would block tilt. */
+.rf-product-card.rf-depth-shown {
+  transform: perspective(var(--depth-perspective))
+             rotateX(var(--depth-rx))
+             rotateY(var(--depth-ry))
+             scale(var(--depth-scale));
+}
+
+/* ------------------------------------------------------------- opt-outs --- */
+
+@media (prefers-reduced-motion: reduce) {
+  .rf-product-card,
+  .rf-product-card.rf-depth-shown,
+  .rf-product-card .rf-card-media,
+  .rf-hero-slide.active .rf-hero-photo,
+  .rf-hero-slide.active .rf-hero-float-tag,
+  .rf-depth-reveal {
+    transform: none !important;
+    transition: none !important;
+  }
+  .rf-depth-glare { display: none; }
+  .rf-depth-reveal { opacity: 1 !important; }
+}
+
+/* No hover means no cursor to track. The compound selector matters: the
+   .rf-depth-shown reveal rule outranks a bare .rf-product-card, so without it
+   every card keeps a 3D rendering context — and a compositing layer — on a
+   phone that can never use one. */
+@media (hover: none), (pointer: coarse) {
+  .rf-product-card,
+  .rf-product-card.rf-depth-shown,
+  .rf-product-card.rf-depth-active {
+    transform: none;
+    transform-style: flat;
+  }
+  .rf-product-card .rf-card-media { transform: none; }
+  .rf-depth-glare { display: none; }
+}

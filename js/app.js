@@ -38,6 +38,7 @@ const AppState = {
     this.updateCounters();
     this.startAnnouncementCountdown();
     this.reflectConnectionMode();
+    if (typeof Depth !== "undefined") Depth.refresh();
   },
 
   /** A quiet badge so it's obvious whether orders are going to the server. */
@@ -418,6 +419,9 @@ const AppState = {
     }
 
     grid.innerHTML = filtered.map((product, index) => this.renderProductCard(product, index)).join("");
+    // Cards are re-rendered on every filter change, so the effects have to be
+    // re-bound. Depth.refresh() is idempotent and skips anything already wired.
+    if (typeof Depth !== "undefined") Depth.refresh();
   },
 
   renderProductCard(product, index) {
