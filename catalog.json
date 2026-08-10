@@ -1,21 +1,21 @@
 [
   {
     "id": "RF-K01",
-    "name": "Aaradhya Handblock Chanderi Silk Kurti",
-    "tagline": "Woven in pure Chanderi with handcrafted antique gold Zari yoke",
-    "category": "kurtis",
-    "subCategory": "Straight Cut Kurti",
+    "name": "Bottle Green Churidar Set",
+    "tagline": "Three-piece churidar set — kurta, churidar and dupatta",
+    "category": "churidars",
+    "subCategory": "Churidar Set",
     "price": 2499,
     "originalPrice": 3499,
     "discount": "29% OFF",
-    "rating": 4.9,
-    "reviewsCount": 128,
-    "color": "Wine Maroon & Gold",
-    "colorHex": "#133224",
-    "accentHex": "#FBB38D",
-    "fabric": "Chanderi Silk",
-    "fabricCategory": "Silk",
-    "occasion": "Festive / Evening",
+    "rating": 5,
+    "reviewsCount": 0,
+    "color": "Bottle Green",
+    "colorHex": "#0C271B",
+    "accentHex": "#C9A227",
+    "fabric": "",
+    "fabricCategory": "",
+    "occasion": "Festive",
     "sizes": [
       "XS",
       "S",
@@ -25,20 +25,16 @@
       "XXL"
     ],
     "stock": 7,
-    "isBestseller": true,
-    "isNew": false,
+    "isBestseller": false,
+    "isNew": true,
     "featured": true,
-    "badge": "Bestseller",
-    "description": "The Aaradhya Kurti is an epitome of regal grace, featuring pure handblock printed Chanderi silk with an intricately embroidered antique gold zari yoke. Designed with a Mandarin collar and 3/4 sleeves adorned with delicate gota patti finishing. Pairs effortlessly with raw silk pants or classic churidars.",
+    "badge": "Bottle Green",
+    "description": "A three-piece churidar set in bottle green — gold zari buti across the kurta, matching dupatta. Supplied as kurta, churidar and dupatta.",
     "details": {
-      "Kurti Style": "Straight cut with side slits",
-      "Fabric Composition": "80% Pure Chanderi Silk, 20% Cotton Silk Lining",
-      "Neckline": "Keyhole Mandarin with Hand Embroidery",
-      "Sleeve Length": "3/4th with Gota Border (17 inches)",
-      "Kurti Length": "46 inches (Calf length)",
-      "Care Instructions": "Dry clean only for initial wash. Gentle hand wash thereafter."
+      "Set contents": "Kurta, churidar, dupatta",
+      "Colour": "Bottle Green"
     },
-    "inTheBox": "1 Handcrafted Chanderi Kurti (Inner lining attached)",
+    "inTheBox": "1 Kurta, 1 Churidar, 1 Dupatta",
     "visualType": "chanderi_maroon",
     "media": [
       {
@@ -52,32 +48,30 @@
       }
     ],
     "highlights": [
-      "Chanderi Silk fabric",
-      "Straight Cut Kurti",
-      "Colour: Wine Maroon & Gold",
-      "Ideal for Festive / Evening",
-      "Dry clean only for initial wash. Gentle hand wash thereafter."
+      "Three-piece set: kurta, churidar, dupatta",
+      "Colour: Bottle Green",
+      "Free made-to-measure tailoring"
     ],
     "active": true,
     "updatedAt": "2026-08-09T12:22:48.814Z"
   },
   {
     "id": "RF-K02",
-    "name": "Noor Gulabi Pure Mulmul Cotton Kurti",
-    "tagline": "Ultra-breathable Jaipur floral block print with shell button accents",
-    "category": "kurtis",
-    "subCategory": "A-Line Daily Kurti",
+    "name": "Black Churidar Set",
+    "tagline": "Three-piece churidar set — kurta, churidar and dupatta",
+    "category": "churidars",
+    "subCategory": "Churidar Set",
     "price": 1299,
     "originalPrice": 1799,
     "discount": "28% OFF",
-    "rating": 4.8,
-    "reviewsCount": 94,
-    "color": "Blush Rose & Ivory",
-    "colorHex": "#1B1B1C",
-    "accentHex": "#F4B493",
-    "fabric": "Pure Mulmul Cotton",
-    "fabricCategory": "Cotton",
-    "occasion": "Casual / Workwear",
+    "rating": 5,
+    "reviewsCount": 0,
+    "color": "Black",
+    "colorHex": "#171717",
+    "accentHex": "#C9A227",
+    "fabric": "",
+    "fabricCategory": "",
+    "occasion": "Festive",
     "sizes": [
       "S",
       "M",
@@ -90,17 +84,13 @@
     "isBestseller": false,
     "isNew": true,
     "featured": true,
-    "badge": "New Arrival",
-    "description": "Handcrafted from 100% fine Jaipur mulmul cotton, the Noor Gulabi Kurti offers featherlight comfort for long workdays and casual outings. Hand-stamped with natural vegetable dyes in artisanal floral motifs and tailored with a subtle A-line silhouette.",
+    "badge": "Black",
+    "description": "A three-piece churidar set in black — gold buti on black, gold-bordered dupatta. Supplied as kurta, churidar and dupatta.",
     "details": {
-      "Kurti Style": "Gentle A-Line Flare with pocket",
-      "Fabric Composition": "100% Organic Mulmul Cotton",
-      "Neckline": "Sweetheart V-Neck with Mother-of-Pearl buttons",
-      "Sleeve Length": "Roll-up 3/4 Sleeves with button tab",
-      "Kurti Length": "44 inches",
-      "Care Instructions": "Machine wash cold with like colors. Dry in shade."
+      "Set contents": "Kurta, churidar, dupatta",
+      "Colour": "Black"
     },
-    "inTheBox": "1 Jaipur Handblock Mulmul Kurti",
+    "inTheBox": "1 Kurta, 1 Churidar, 1 Dupatta",
     "visualType": "mulmul_pink",
     "media": [
       {
@@ -114,32 +104,30 @@
       }
     ],
     "highlights": [
-      "Pure Mulmul Cotton fabric",
-      "A-Line Daily Kurti",
-      "Colour: Blush Rose & Ivory",
-      "Ideal for Casual / Workwear",
-      "Machine wash cold with like colors. Dry in shade."
+      "Three-piece set: kurta, churidar, dupatta",
+      "Colour: Black",
+      "Free made-to-measure tailoring"
     ],
     "active": true,
     "updatedAt": "2026-08-09T12:23:02.050Z"
   },
   {
     "id": "RF-K03",
-    "name": "Meera Royal Emerald Resham Embroidered Kurti",
-    "tagline": "Lustrous peacock emerald with intricate silver and gold Resham flora",
-    "category": "kurtis",
-    "subCategory": "Embroidered Straight Kurti",
+    "name": "Black & Gold Churidar Set",
+    "tagline": "Three-piece churidar set — kurta, churidar and dupatta",
+    "category": "churidars",
+    "subCategory": "Churidar Set",
     "price": 1899,
     "originalPrice": 2699,
     "discount": "30% OFF",
-    "rating": 4.9,
-    "reviewsCount": 156,
-    "color": "Royal Emerald Peacock",
-    "colorHex": "#141313",
-    "accentHex": "#FBBB94",
-    "fabric": "Silk Blend Rayon",
-    "fabricCategory": "Silk Blend",
-    "occasion": "Festive / Puja",
+    "rating": 5,
+    "reviewsCount": 0,
+    "color": "Black & Gold",
+    "colorHex": "#14100C",
+    "accentHex": "#B08D57",
+    "fabric": "",
+    "fabricCategory": "",
+    "occasion": "Festive",
     "sizes": [
       "XS",
       "S",
@@ -149,20 +137,16 @@
       "XXL"
     ],
     "stock": 4,
-    "isBestseller": true,
-    "isNew": false,
+    "isBestseller": false,
+    "isNew": true,
     "featured": true,
-    "badge": "Limited Edition",
-    "description": "Make an unforgettable statement in the Meera Kurti, saturated in deep peacock emerald green. Features heavy Resham thread embroidery along the front placket, paired with shimmering zari highlights. Rich drape and wrinkle-resistant finish.",
+    "badge": "Black & Gold",
+    "description": "A three-piece churidar set in black & gold — heavy antique gold work through kurta and dupatta. Supplied as kurta, churidar and dupatta.",
     "details": {
-      "Kurti Style": "Tailored Straight Fit with contrast piping",
-      "Fabric Composition": "Heavy Rayon Silk with Cotton Slub weave",
-      "Neckline": "Round neck with split V front",
-      "Sleeve Length": "Full sleeves with embroidered cuffs",
-      "Kurti Length": "47 inches",
-      "Care Instructions": "Dry clean recommended to preserve Resham luster."
+      "Set contents": "Kurta, churidar, dupatta",
+      "Colour": "Black & Gold"
     },
-    "inTheBox": "1 Royal Emerald Embroidered Kurti",
+    "inTheBox": "1 Kurta, 1 Churidar, 1 Dupatta",
     "visualType": "emerald_embroidered",
     "media": [
       {
@@ -176,32 +160,30 @@
       }
     ],
     "highlights": [
-      "Silk Blend Rayon fabric",
-      "Embroidered Straight Kurti",
-      "Colour: Royal Emerald Peacock",
-      "Ideal for Festive / Puja",
-      "Dry clean recommended to preserve Resham luster."
+      "Three-piece set: kurta, churidar, dupatta",
+      "Colour: Black & Gold",
+      "Free made-to-measure tailoring"
     ],
     "active": true,
     "updatedAt": "2026-08-09T12:23:17.178Z"
   },
   {
     "id": "RF-K04",
-    "name": "Zoya Lucknowi Chikankari Mukaish Kurti",
-    "tagline": "Authentic Lucknow hand embroidery with sparkling metallic Mukaish dots",
-    "category": "kurtis",
-    "subCategory": "Chikankari Kurti",
+    "name": "Rust Orange Churidar Set",
+    "tagline": "Three-piece churidar set — kurta, churidar and dupatta",
+    "category": "churidars",
+    "subCategory": "Churidar Set",
     "price": 2199,
     "originalPrice": 2999,
     "discount": "27% OFF",
-    "rating": 4.9,
-    "reviewsCount": 112,
-    "color": "Pastel Powder Blue",
-    "colorHex": "#B42B13",
-    "accentHex": "#F9AC85",
-    "fabric": "Pure Georgette",
-    "fabricCategory": "Georgette",
-    "occasion": "Casual / Evening",
+    "rating": 5,
+    "reviewsCount": 0,
+    "color": "Rust Orange",
+    "colorHex": "#971604",
+    "accentHex": "#E0B15C",
+    "fabric": "",
+    "fabricCategory": "",
+    "occasion": "Festive",
     "sizes": [
       "S",
       "M",
@@ -212,18 +194,14 @@
     "stock": 9,
     "isBestseller": false,
     "isNew": true,
-    "featured": false,
-    "badge": "Artisanal",
-    "description": "An authentic masterpiece from Lucknowi artisans, this powder blue georgette kurti showcases intricate Bakhiya, Phanda, and Keel Kangan embroidery, elevated with hand-embedded Mukaish silver sequins.",
+    "featured": true,
+    "badge": "Rust Orange",
+    "description": "A three-piece churidar set in rust orange — tonal print with a contrast rust dupatta. Supplied as kurta, churidar and dupatta.",
     "details": {
-      "Kurti Style": "Classic Straight Chikankari Cut",
-      "Fabric Composition": "Featherlight Viscose Georgette (Includes matching dyed slip)",
-      "Neckline": "Round neckline with all-over jaal embroidery",
-      "Sleeve Length": "3/4th sheer embroidered sleeves",
-      "Kurti Length": "45 inches",
-      "Care Instructions": "Hand wash gently in cold water with mild detergent."
+      "Set contents": "Kurta, churidar, dupatta",
+      "Colour": "Rust Orange"
     },
-    "inTheBox": "1 Chikankari Kurti + 1 Dyed Cotton Inner Slip",
+    "inTheBox": "1 Kurta, 1 Churidar, 1 Dupatta",
     "visualType": "chikankari_blue",
     "media": [
       {
@@ -237,32 +215,30 @@
       }
     ],
     "highlights": [
-      "Pure Georgette fabric",
-      "Chikankari Kurti",
-      "Colour: Pastel Powder Blue",
-      "Ideal for Casual / Evening",
-      "Hand wash gently in cold water with mild detergent."
+      "Three-piece set: kurta, churidar, dupatta",
+      "Colour: Rust Orange",
+      "Free made-to-measure tailoring"
     ],
     "active": true,
     "updatedAt": "2026-08-09T12:23:34.350Z"
   },
   {
     "id": "RF-K05",
-    "name": "Sitara Mirror Work Peplum Short Kurti",
-    "tagline": "Vibrant festive mustard with authentic reflective mirror work & tassels",
-    "category": "kurtis",
-    "subCategory": "Short Peplum Kurti",
+    "name": "Rani Pink Churidar Set",
+    "tagline": "Three-piece churidar set — kurta, churidar and dupatta",
+    "category": "churidars",
+    "subCategory": "Churidar Set",
     "price": 1699,
     "originalPrice": 2299,
     "discount": "26% OFF",
-    "rating": 4.7,
-    "reviewsCount": 81,
-    "color": "Haldi Mustard Yellow",
-    "colorHex": "#9B022C",
-    "accentHex": "#FBB384",
-    "fabric": "Cotton Silk",
-    "fabricCategory": "Cotton",
-    "occasion": "Festive / Haldi",
+    "rating": 5,
+    "reviewsCount": 0,
+    "color": "Rani Pink",
+    "colorHex": "#A60629",
+    "accentHex": "#D8A24A",
+    "fabric": "",
+    "fabricCategory": "",
+    "occasion": "Festive",
     "sizes": [
       "XS",
       "S",
@@ -272,19 +248,15 @@
     ],
     "stock": 6,
     "isBestseller": false,
-    "isNew": false,
-    "featured": false,
-    "badge": "Festive Favorite",
-    "description": "Radiate celebratory sunshine with the Sitara short peplum kurti. Crafted with real glass mirrors stitched in Kutchi geometric borders, pleated waist flare, and artisan dori tassels on the back tie-up.",
+    "isNew": true,
+    "featured": true,
+    "badge": "Rani Pink",
+    "description": "A three-piece churidar set in rani pink — all-over print with a gold-bordered dupatta. Supplied as kurta, churidar and dupatta.",
     "details": {
-      "Kurti Style": "Flared Peplum Short Kurti (Ideal with dhoti / sharara)",
-      "Fabric Composition": "Pure Cotton Silk Blend",
-      "Neckline": "Angrakha overlap with mirror trim",
-      "Sleeve Length": "Elbow length sleeves with mirror borders",
-      "Kurti Length": "32 inches",
-      "Care Instructions": "Dry clean only."
+      "Set contents": "Kurta, churidar, dupatta",
+      "Colour": "Rani Pink"
     },
-    "inTheBox": "1 Peplum Kurti with artisan tassels",
+    "inTheBox": "1 Kurta, 1 Churidar, 1 Dupatta",
     "visualType": "mustard_mirror",
     "media": [
       {
@@ -298,11 +270,9 @@
       }
     ],
     "highlights": [
-      "Cotton Silk fabric",
-      "Short Peplum Kurti",
-      "Colour: Haldi Mustard Yellow",
-      "Ideal for Festive / Haldi",
-      "Dry clean only."
+      "Three-piece set: kurta, churidar, dupatta",
+      "Colour: Rani Pink",
+      "Free made-to-measure tailoring"
     ],
     "active": true,
     "updatedAt": "2026-08-09T12:23:52.330Z"
@@ -348,17 +318,7 @@
     },
     "inTheBox": "1 Banarasi Brocade Anarkali Kurti with padded cups & side zipper",
     "visualType": "banarasi_anarkali",
-    "media": [
-      {
-        "src": "assets/products/rf-k06-front-e904e573.webp",
-        "zoomSrc": "assets/products/rf-k06-front-zoom-ef9db82a.webp",
-        "shot": "front",
-        "caption": "Front view — full silhouette and drape",
-        "detail": "Front view — full silhouette and drape",
-        "alt": "Kashvi Banarasi Brocade Flared Anarkali Kurti — front",
-        "primary": true
-      }
-    ],
+    "media": [],
     "highlights": [
       "Banarasi Brocade Silk fabric",
       "Anarkali Kurti",
@@ -366,26 +326,26 @@
       "Ideal for Wedding / Party",
       "Strictly Dry Clean Only."
     ],
-    "active": true,
+    "active": false,
     "updatedAt": "2026-08-09T12:24:16.869Z"
   },
   {
     "id": "RF-C01",
-    "name": "Maharani Velvet Embroidered Bridal Churidar Set",
-    "tagline": "3-Piece Masterpiece: Royal Burgundy Velvet Kurta, Churidar Pants & Zardozi Organza Dupatta",
+    "name": "Cream & Red Churidar Set",
+    "tagline": "Three-piece churidar set — kurta, churidar and dupatta",
     "category": "churidars",
-    "subCategory": "Bridal Churidar Suit",
+    "subCategory": "Churidar Set",
     "price": 6499,
     "originalPrice": 8999,
     "discount": "28% OFF",
     "rating": 5,
-    "reviewsCount": 189,
-    "color": "Royal Burgundy Wine",
-    "colorHex": "#ECD2B4",
-    "accentHex": "#D38453",
-    "fabric": "Micro Velvet & Pure Organza",
-    "fabricCategory": "Velvet",
-    "occasion": "Wedding / Party",
+    "reviewsCount": 0,
+    "color": "Cream & Red",
+    "colorHex": "#E6C8A8",
+    "accentHex": "#B3341F",
+    "fabric": "",
+    "fabricCategory": "",
+    "occasion": "Festive",
     "sizes": [
       "XS",
       "S",
@@ -396,21 +356,16 @@
       "Custom Fit"
     ],
     "stock": 5,
-    "isBestseller": true,
+    "isBestseller": false,
     "isNew": true,
     "featured": true,
-    "badge": "Bridal Couture",
-    "description": "Indulge in royal grandeur with the Maharani Bridal Set. Features a plush micro-velvet kurta adorned with authentic Mughal Dabka, Zardozi, and sequence hand embroidery. Complete with stretch-churidar pants with gathered gathers and a 2.5m scalloped sheer organza dupatta.",
+    "badge": "Cream & Red",
+    "description": "A three-piece churidar set in cream & red — cream base with a red-orange print and paisley dupatta. Supplied as kurta, churidar and dupatta.",
     "details": {
-      "Set Contents": "1 Velvet Kurta + 1 Lycra Cotton Churidar + 1 Scalloped Dupatta",
-      "Kurta Fabric": "Premium Royal Micro Velvet (Heavy weight, feather-soft)",
-      "Bottom Fabric": "Stretchable Cotton Lycra Churidar with 18 gathers",
-      "Dupatta": "2.5m Pure Silk Organza with cutwork Zardozi borders",
-      "Neckline": "Deep V-neck with handcrafted potli buttons",
-      "Tailoring": "Fully finished with satin lining & bra-snaps",
-      "Care Instructions": "Specialist Dry Clean Only."
+      "Set contents": "Kurta, churidar, dupatta",
+      "Colour": "Cream & Red"
     },
-    "inTheBox": "1 Heavy Velvet Kurta, 1 Churidar Pant, 1 Embroidered Organza Dupatta",
+    "inTheBox": "1 Kurta, 1 Churidar, 1 Dupatta",
     "visualType": "velvet_churidar",
     "media": [
       {
@@ -424,12 +379,9 @@
       }
     ],
     "highlights": [
-      "Micro Velvet & Pure Organza fabric",
-      "Bridal Churidar Suit",
-      "1 Velvet Kurta + 1 Lycra Cotton Churidar + 1 Scalloped Dupatta",
-      "Colour: Royal Burgundy Wine",
-      "Ideal for Wedding / Party",
-      "Specialist Dry Clean Only."
+      "Three-piece set: kurta, churidar, dupatta",
+      "Colour: Cream & Red",
+      "Free made-to-measure tailoring"
     ],
     "active": true,
     "updatedAt": "2026-08-09T12:26:11.907Z"
@@ -484,7 +436,7 @@
       "Ideal for Festive / Wedding",
       "Dry clean only. Iron on reverse with low heat."
     ],
-    "active": true,
+    "active": false,
     "updatedAt": "2026-08-09T12:21:20.801Z"
   },
   {
@@ -536,7 +488,7 @@
       "Ideal for Festive / Day Events",
       "Dry clean only."
     ],
-    "active": true,
+    "active": false,
     "updatedAt": "2026-08-09T12:21:20.801Z"
   },
   {
@@ -589,7 +541,7 @@
       "Ideal for Festive / Puja",
       "Gentle dry clean only."
     ],
-    "active": true,
+    "active": false,
     "updatedAt": "2026-08-09T12:21:20.801Z"
   },
   {
@@ -642,7 +594,7 @@
       "Ideal for Festive / Karva Chauth",
       "Dry clean only."
     ],
-    "active": true,
+    "active": false,
     "updatedAt": "2026-08-09T12:21:20.801Z"
   },
   {
@@ -695,7 +647,7 @@
       "Ideal for Casual / Workwear",
       "First wash dry clean. Subsequent washes cold machine wash with mild detergent."
     ],
-    "active": true,
+    "active": false,
     "updatedAt": "2026-08-09T12:21:20.801Z"
   },
   {
@@ -746,7 +698,7 @@
       "Ideal for Party / Sangeet",
       "Dry clean only."
     ],
-    "active": true,
+    "active": false,
     "updatedAt": "2026-08-09T12:21:20.801Z"
   },
   {
@@ -798,7 +750,7 @@
       "Ideal for Festive / Haldi / Wedding",
       "Dry clean only."
     ],
-    "active": true,
+    "active": false,
     "updatedAt": "2026-08-09T12:21:20.801Z"
   },
   {
@@ -849,7 +801,7 @@
       "Ideal for Casual / Party",
       "Hand wash gently in cold water or dry clean."
     ],
-    "active": true,
+    "active": false,
     "updatedAt": "2026-08-09T12:21:20.801Z"
   },
   {
@@ -900,7 +852,7 @@
       "Ideal for Casual / Workwear",
       "Hand wash with eco-friendly detergent. Iron damp."
     ],
-    "active": true,
+    "active": false,
     "updatedAt": "2026-08-09T12:21:20.801Z"
   }
 ]

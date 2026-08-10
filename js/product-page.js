@@ -321,14 +321,18 @@ const ProductPage = {
 
   renderSpecifications() {
     const p = this.product;
-    const general = {
-      "Product code": p.id,
-      Category: p.subCategory,
-      Colour: p.color,
-      Fabric: p.fabric,
-      Occasion: p.occasion,
-      "Available sizes": p.sizes.join(", ")
-    };
+    // Skip anything not filled in yet rather than printing an empty row —
+    // a blank "Fabric:" reads as a broken page, not as missing data.
+    const general = Object.fromEntries(
+      Object.entries({
+        "Product code": p.id,
+        Category: p.subCategory,
+        Colour: p.color,
+        Fabric: p.fabric,
+        Occasion: p.occasion,
+        "Available sizes": (p.sizes || []).join(", ")
+      }).filter(([, v]) => v)
+    );
 
     const table = (title, rows) => `
       <div class="rf-spec-group">

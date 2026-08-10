@@ -472,7 +472,11 @@ const AppState = {
           </div>
 
           <h3 class="rf-card-title"><a href="${href}">${Media.escapeHtml(product.name)}</a></h3>
-          <p class="rf-card-fabric">${Media.escapeHtml(product.fabric)}</p>
+          ${
+            product.fabric
+              ? `<p class="rf-card-fabric">${Media.escapeHtml(product.fabric)}</p>`
+              : `<p class="rf-card-fabric">${Media.escapeHtml(product.subCategory || "")}</p>`
+          }
 
           <div class="rf-card-sizes" id="sizes_${product.id}">
             ${product.sizes
