@@ -108,7 +108,13 @@ function readBody(req) {
  * password hash in it. Enumerating what must stay private is a losing game, so
  * only these paths are reachable and everything else is a flat 404.
  */
-const PUBLIC_PAGES = new Set(["index.html", "product.html", "orders.html", "admin.html"]);
+const PUBLIC_PAGES = new Set([
+  "index.html",
+  "product.html",
+  "orders.html",
+  "admin.html",
+  "studio.html"
+]);
 const PUBLIC_DIRS = new Set(["js", "styles", "assets"]);
 
 function notFound(res) {

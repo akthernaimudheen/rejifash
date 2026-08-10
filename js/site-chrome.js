@@ -245,6 +245,7 @@ const SiteChrome = {
               <span>🔒 Secure checkout</span>
               <span>⚡ UPI · RuPay · Cash on delivery</span>
               <span>🛡️ Verified authentic silks</span>
+              <a href="studio.html">Studio view</a>
               <a href="admin.html">Shop admin</a>
             </div>
           </div>

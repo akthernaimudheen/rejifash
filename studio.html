@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reji Fashions — Studio</title>
+  <meta name="description" content="Six churidar sets. Photographed once, properly.">
+  <meta name="theme-color" content="#08080A">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%2308080A%22/><text y=%2266%22 x=%2250%22 font-size=%2246%22 text-anchor=%22middle%22 fill=%22%23D4AF37%22 font-family=%22sans-serif%22 font-weight=%22bold%22>R</text></svg>">
+
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/storefront.css">
+  <link rel="stylesheet" href="styles/studio.css">
+</head>
+<body class="studio">
+
+  <!-- grain + cursor: decorative, never interactive -->
+  <div class="st-grain" aria-hidden="true"></div>
+  <div class="st-cursor" aria-hidden="true"><span class="st-cursor-dot"></span><span class="st-cursor-ring"></span></div>
+
+  <header class="st-nav" id="stNav">
+    <a class="st-mark" href="studio.html">REJI<span>°</span></a>
+    <nav class="st-nav-links">
+      <a href="#pieces">Pieces</a>
+      <a href="#made">Made</a>
+      <a href="orders.html">Track</a>
+    </nav>
+    <button class="st-bag" onclick="AppState.openCartDrawer()">
+      Bag<span class="st-bag-count" id="stBagCount">0</span>
+    </button>
+  </header>
+
+  <main>
+    <!-- Hero: sticky, scrubbed by native scroll. Never hijacked. -->
+    <section class="st-hero" id="stHero">
+      <div class="st-hero-pin">
+        <div class="st-hero-type">
+          <h1 class="st-display">
+            <span class="st-line"><em>Six</em></span>
+            <span class="st-line">churidar</span>
+            <span class="st-line">sets<i>.</i></span>
+          </h1>
+          <p class="st-lede">
+            Photographed once, properly. No stock imagery, no invented fabric,
+            no brand story. Just what is on the rail.
+          </p>
+          <a class="st-cta" href="#pieces">
+            <span>See the pieces</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M13 6l6 6-6 6"/>
+            </svg>
+          </a>
+        </div>
+        <figure class="st-hero-figure" id="stHeroFigure"></figure>
+      </div>
+      <div class="st-scrollcue" aria-hidden="true"><span></span></div>
+    </section>
+
+    <div class="st-ticker" aria-hidden="true">
+      <div class="st-ticker-track" id="stTicker"></div>
+    </div>
+
+    <!-- Pieces: horizontal rail, native scroll + snap -->
+    <section class="st-pieces" id="pieces">
+      <div class="st-section-head">
+        <span class="st-eyebrow">01 — Collection</span>
+        <h2 class="st-h2">Everything available</h2>
+        <div class="st-rail-nav">
+          <button id="stRailPrev" aria-label="Previous">←</button>
+          <button id="stRailNext" aria-label="Next">→</button>
+        </div>
+      </div>
+      <div class="st-rail" id="stRail" tabindex="0" aria-label="Products, scroll horizontally"></div>
+    </section>
+
+    <!-- Feature -->
+    <section class="st-made" id="made">
+      <div class="st-made-media"><div id="stMadeFigure"></div></div>
+      <div class="st-made-copy">
+        <span class="st-eyebrow">02 — Made</span>
+        <h2 class="st-h2">Cut to your<br>measurements.</h2>
+        <p>
+          Every set is offered made-to-measure at no extra charge. Send your bust,
+          waist, hip and length — or pick a standard size and we will fit it.
+        </p>
+        <ul class="st-facts">
+          <li><b>3</b><span>pieces per set — kurta, churidar, dupatta</span></li>
+          <li><b>0</b><span>charge for made-to-measure</span></li>
+          <li><b>7</b><span>day returns</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Payment -->
+    <section class="st-pay">
+      <span class="st-eyebrow">03 — Payment</span>
+      <h2 class="st-h2">Scan. Pay. Done.</h2>
+      <ol class="st-steps">
+        <li><b>01</b><h3>Order first</h3><p>Saved before you pay, so nothing is lost if the app closes.</p></li>
+        <li><b>02</b><h3>Scan the code</h3><p>Amount and reference already filled in. Any UPI app.</p></li>
+        <li><b>03</b><h3>Send the UTR</h3><p>We match it against the bank and confirm on WhatsApp.</p></li>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="st-foot">
+    <h2 class="st-display st-foot-display">Reji<i>°</i></h2>
+    <div class="st-foot-row">
+      <a href="index.html">Classic storefront →</a>
+      <a href="orders.html">Track an order →</a>
+      <a id="stWhatsapp" href="#" target="_blank" rel="noopener">WhatsApp →</a>
+    </div>
+    <small>Thrissur · Bengaluru — handmade, sold direct.</small>
+  </footer>
+
+  <!-- Cart drawer + checkout come from the shared chrome so buying actually
+       works here; studio.css restyles them for the dark canvas. -->
+  <div data-rf-chrome="overlays"></div>
+
+  <script src="js/products-data.js"></script>
+  <script src="js/qrcode.js"></script>
+  <script src="js/upi.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/visual-engine.js"></script>
+  <script src="js/media.js"></script>
+  <script src="js/image-studio.js"></script>
+  <script src="js/site-chrome.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/checkout.js"></script>
+  <script src="js/ui-interactions.js"></script>
+  <script src="js/studio.js"></script>
+</body>
+</html>
